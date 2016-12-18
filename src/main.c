@@ -5,28 +5,41 @@
 #include "main.h"
 #include "stm32l4xx_hal.h"
 #include "ringbuffer.h"
+#include "NEC_Decode.h"
+#include "key.h"
 
 
 // Functions
 void Error_Handler();
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_TIM2_Init(void);
+static void NEC_IR_Init(void);
 
 // Global Data
+TIM_HandleTypeDef htim2;
+DMA_HandleTypeDef hdma_tim2_ch1;
+
 UART_HandleTypeDef huart1, huart2;
 RingBuffer pcTxBuf, pcRxBuf, btTxBuf, btRxBuf;
 char pcReadBuf[1], btReadBuf[1];
 uint8_t pcTxData, btTxData;
 __IO ITStatus PcUartReady = SET, BtUartReady = SET;
 
+NEC nec;
+
 int main(){
 	HAL_Init();
 	SystemClock_Config();
 	MX_GPIO_Init();
+	MX_DMA_Init();
 	MX_USART1_UART_Init();
 	MX_USART2_UART_Init();
+	MX_TIM2_Init();
+	NEC_IR_Init();
 
 	// Set interrupt priority
 	HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
@@ -127,7 +140,52 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
   }
 }
 
+/*******************************************
+ * Customized Initializer
+ */
+void myNecDecodedCallback(uint16_t address, uint8_t cmd) {
+	Key key = KeySelect(cmd);
+    printf("Key:%s (%2d)\n", key.keyshow, key.keyvalue);
 
+	RingBuffer_Write(&btTxBuf, (uint8_t *)&key.keyvalue, 1);
+	HAL_UART_TxCpltCallback(&huart1);
+    HAL_Delay(10);
+    NEC_Read(&nec);
+}
+
+void myNecErrorCallback() {
+    printf("Error!\n");
+    HAL_Delay(10);
+    NEC_Read(&nec);
+}
+
+void myNecRepeatCallback() {
+    printf("Repeat!\n");
+    HAL_Delay(10);
+    NEC_Read(&nec);
+}
+
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
+    if (htim == &htim2) {
+        NEC_TIM_IC_CaptureCallback(&nec);
+    }
+}
+void NEC_IR_Init(void)
+{
+	nec.timerHandle = &htim2;
+	nec.timerChannel = TIM_CHANNEL_1;
+	nec.timerChannelActive = HAL_TIM_ACTIVE_CHANNEL_1;
+
+    nec.timingBitBoundary = 1680 * 2;
+    nec.timingAgcBoundary = 12500 * 2;
+    nec.type = NEC_EXTENDED;
+
+    nec.NEC_DecodedCallback = myNecDecodedCallback;
+    nec.NEC_ErrorCallback = myNecErrorCallback;
+    nec.NEC_RepeatCallback = myNecRepeatCallback;
+
+    NEC_Read(&nec);
+}
 /*******************************************
  * Initialization
  */
@@ -200,6 +258,65 @@ void SystemClock_Config(void)
 }
 
 
+
+/* TIM2 init function */
+static void MX_TIM2_Init(void)
+{
+
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_SlaveConfigTypeDef sSlaveConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_IC_InitTypeDef sConfigIC;
+
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 39;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 0xffffffff;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  if (HAL_TIM_IC_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+
+  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_RESET;
+  sSlaveConfig.InputTrigger = TIM_TS_TI1FP1;
+  sSlaveConfig.TriggerPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
+  sSlaveConfig.TriggerFilter = 4;
+  if (HAL_TIM_SlaveConfigSynchronization(&htim2, &sSlaveConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_FALLING;
+  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+  sConfigIC.ICFilter = 4;
+  if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+}
+
 /* USART1 init function */
 static void MX_USART1_UART_Init(void)
 {
@@ -241,6 +358,24 @@ static void MX_USART2_UART_Init(void)
   }
 
 }
+
+
+/**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 4, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+
+}
+
+
 
 /* GPIO for LCD and User Button */
 static void MX_GPIO_Init(void)
