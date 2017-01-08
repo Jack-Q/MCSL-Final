@@ -8,7 +8,6 @@
 #include "NEC_Decode.h"
 
 void NEC_TIM_IC_CaptureCallback(NEC* handle) {
-
     if (handle->state == NEC_INIT) {
 
         HAL_TIM_IC_Stop_DMA(handle->timerHandle, handle->timerChannel);

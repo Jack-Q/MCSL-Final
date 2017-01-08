@@ -15,7 +15,7 @@ void Error_Handler();
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
-static void MX_USART1_UART_Init(void);
+static void MX_USART3_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM2_Init(void);
 void MX_USB_HOST_Process(void);
@@ -25,7 +25,7 @@ static void NEC_IR_Init(void);
 TIM_HandleTypeDef htim2;
 DMA_HandleTypeDef hdma_tim2_ch1;
 
-UART_HandleTypeDef huart1, huart2;
+UART_HandleTypeDef huart3, huart2;
 RingBuffer pcTxBuf, pcRxBuf, btTxBuf, btRxBuf;
 char pcReadBuf[1], btReadBuf[1];
 uint8_t pcTxData, btTxData;
@@ -36,19 +36,19 @@ NEC nec;
 int main(){
 	HAL_Init();
 	SystemClock_Config();
-	MX_TIM2_Init();
 	MX_GPIO_Init();
 	MX_DMA_Init();
-	MX_USART1_UART_Init();
+	MX_TIM2_Init();
+	MX_USART3_UART_Init();
 	MX_USART2_UART_Init();
-  MX_USB_HOST_Init();
+    MX_USB_HOST_Init();
 	NEC_IR_Init();
 
 	// Set interrupt priority
 	HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(USART2_IRQn);
-	HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
-	HAL_NVIC_EnableIRQ(USART1_IRQn);
+	HAL_NVIC_SetPriority(USART3_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(USART3_IRQn);
 	HAL_NVIC_SetPriority(OTG_FS_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(OTG_FS_IRQn);
 
@@ -79,7 +79,7 @@ int main(){
 					cmdBuf[pos++] = '\r';
 					cmdBuf[pos++] = '\n';
 					RingBuffer_Write(&btTxBuf, (uint8_t *)cmdBuf, pos);
-					HAL_UART_TxCpltCallback(&huart1);
+					HAL_UART_TxCpltCallback(&huart3);
 					pos = 0;
 				}
 			}else{
@@ -91,7 +91,7 @@ int main(){
 			// Receive data from BlueTooth Module
 			BtUartReady = RESET;
 			data = btReadBuf[0];
-			HAL_UART_Receive_IT(&huart1, (uint8_t *)btReadBuf, 1);
+			HAL_UART_Receive_IT(&huart3, (uint8_t *)btReadBuf, 1);
 
 			// Process received data
 			printf("%c", data);
@@ -110,7 +110,7 @@ int __io_putchar(int ch){
 // Interrupt handler
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
   /* Set transmission flag: transfer complete*/
-  if(huart->Instance == USART1){
+  if(huart->Instance == USART3){
 	  // BT
 	  BtUartReady = SET;
   }else if(huart->Instance == USART2){
@@ -121,7 +121,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
   // Check whether the transfer buffer is empty
-  if(huart->Instance == USART1){
+  if(huart->Instance == USART3){
 	  // BT
 	  if(RingBuffer_GetDataLength(&btTxBuf) > 0) {
 	    RingBuffer_Read(&btTxBuf, &btTxData, 1);
@@ -138,7 +138,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
 }
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
-  if(huart->Instance == USART1){
+  if(huart->Instance == USART3){
 	  // BT
 	  if(huart->ErrorCode == HAL_UART_ERROR_ORE)
 	    HAL_UART_Receive_IT(huart, (uint8_t *)btReadBuf, 1);
@@ -157,7 +157,7 @@ void myNecDecodedCallback(uint16_t address, uint8_t cmd) {
     printf("Key:%s (%2d)\r\n", key.keyshow, key.keyvalue);
 
 	RingBuffer_Write(&btTxBuf, (uint8_t *)&key.keyvalue, 1);
-	HAL_UART_TxCpltCallback(&huart1);
+	HAL_UART_TxCpltCallback(&huart3);
     HAL_Delay(10);
     NEC_Read(&nec);
 }
@@ -217,7 +217,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
   RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 16; // 10
+  RCC_OscInitStruct.PLL.PLLN = 40; // 10
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
@@ -240,8 +240,8 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_USB;
-  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_USB;
+  PeriphClkInit.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
   PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLLSAI1;
   PeriphClkInit.PLLSAI1.PLLSAI1Source = RCC_PLLSOURCE_MSI;
@@ -287,7 +287,7 @@ static void MX_TIM2_Init(void)
   TIM_IC_InitTypeDef sConfigIC;
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 63;
+  htim2.Init.Prescaler = 39;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 0xffffffff;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -335,21 +335,21 @@ static void MX_TIM2_Init(void)
 
 }
 
-/* USART1 init function */
-static void MX_USART1_UART_Init(void)
+/* USART3 init function */
+static void MX_USART3_UART_Init(void)
 {
 
-  huart1.Instance = USART1;
-  huart1.Init.BaudRate = 9600;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX_RX;
-  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-  if (HAL_UART_Init(&huart1) != HAL_OK)
+  huart3.Instance = USART3;
+  huart3.Init.BaudRate = 9600;
+  huart3.Init.WordLength = UART_WORDLENGTH_8B;
+  huart3.Init.StopBits = UART_STOPBITS_1;
+  huart3.Init.Parity = UART_PARITY_NONE;
+  huart3.Init.Mode = UART_MODE_TX_RX;
+  huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart3.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart3.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart3.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart3) != HAL_OK)
   {
     Error_Handler();
   }
