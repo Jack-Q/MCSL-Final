@@ -7,7 +7,8 @@
 #include "ringbuffer.h"
 #include "NEC_Decode.h"
 #include "key.h"
-
+#include "usb_host.h"
+#include "usbh_hid.h"
 
 // Functions
 void Error_Handler();
@@ -17,6 +18,7 @@ static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM2_Init(void);
+void MX_USB_HOST_Process(void);
 static void NEC_IR_Init(void);
 
 // Global Data
@@ -34,11 +36,12 @@ NEC nec;
 int main(){
 	HAL_Init();
 	SystemClock_Config();
+	MX_TIM2_Init();
 	MX_GPIO_Init();
 	MX_DMA_Init();
 	MX_USART1_UART_Init();
 	MX_USART2_UART_Init();
-	MX_TIM2_Init();
+  MX_USB_HOST_Init();
 	NEC_IR_Init();
 
 	// Set interrupt priority
@@ -46,8 +49,8 @@ int main(){
 	HAL_NVIC_EnableIRQ(USART2_IRQn);
 	HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(USART1_IRQn);
-
-
+	HAL_NVIC_SetPriority(OTG_FS_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(OTG_FS_IRQn);
 
 	setbuf(stdout, NULL);
 
@@ -58,7 +61,10 @@ int main(){
 	char cmdBuf[100], data;
 	char *send_message = "Send: ";
 
+
 	while(1){
+		MX_USB_HOST_Process();
+
 		if(PcUartReady){
 			// Receive data from PC
 			PcUartReady = RESET;
@@ -69,7 +75,9 @@ int main(){
 			if(data == '\r' || data == '\n'){
 				if(pos > 1){
 					cmdBuf[pos] = 0;
-					printf("%s%s\n",send_message, cmdBuf);
+					printf("%s%s\r\n",send_message, cmdBuf);
+					cmdBuf[pos++] = '\r';
+					cmdBuf[pos++] = '\n';
 					RingBuffer_Write(&btTxBuf, (uint8_t *)cmdBuf, pos);
 					HAL_UART_TxCpltCallback(&huart1);
 					pos = 0;
@@ -88,6 +96,7 @@ int main(){
 			// Process received data
 			printf("%c", data);
 		}
+
 	}
 }
 
@@ -145,7 +154,7 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
  */
 void myNecDecodedCallback(uint16_t address, uint8_t cmd) {
 	Key key = KeySelect(cmd);
-    printf("Key:%s (%2d)\n", key.keyshow, key.keyvalue);
+    printf("Key:%s (%2d)\r\n", key.keyshow, key.keyvalue);
 
 	RingBuffer_Write(&btTxBuf, (uint8_t *)&key.keyvalue, 1);
 	HAL_UART_TxCpltCallback(&huart1);
@@ -154,13 +163,13 @@ void myNecDecodedCallback(uint16_t address, uint8_t cmd) {
 }
 
 void myNecErrorCallback() {
-    printf("Error!\n");
+    printf("Error!\r\n");
     HAL_Delay(10);
     NEC_Read(&nec);
 }
 
 void myNecRepeatCallback() {
-    printf("Repeat!\n");
+    printf("Repeat!\r\n");
     HAL_Delay(10);
     NEC_Read(&nec);
 }
@@ -201,13 +210,14 @@ void SystemClock_Config(void)
 
     /**Initializes the CPU, AHB and APB busses clocks
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = 16;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+  RCC_OscInitStruct.MSICalibrationValue = 0;
+  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
   RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 10;
+  RCC_OscInitStruct.PLL.PLLN = 16; // 10
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
@@ -230,9 +240,17 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_USB;
   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+  PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLLSAI1;
+  PeriphClkInit.PLLSAI1.PLLSAI1Source = RCC_PLLSOURCE_MSI;
+  PeriphClkInit.PLLSAI1.PLLSAI1M = 1;
+  PeriphClkInit.PLLSAI1.PLLSAI1N = 24;
+  PeriphClkInit.PLLSAI1.PLLSAI1P = RCC_PLLP_DIV7;
+  PeriphClkInit.PLLSAI1.PLLSAI1Q = RCC_PLLQ_DIV2;
+  PeriphClkInit.PLLSAI1.PLLSAI1R = RCC_PLLR_DIV2;
+  PeriphClkInit.PLLSAI1.PLLSAI1ClockOut = RCC_PLLSAI1_48M2CLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
@@ -269,7 +287,7 @@ static void MX_TIM2_Init(void)
   TIM_IC_InitTypeDef sConfigIC;
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 39;
+  htim2.Init.Prescaler = 63;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 0xffffffff;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -413,6 +431,39 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
+}
+
+/******************************************
+ * USB HID Callbacks
+ */
+
+void USBH_HID_EventCallback(USBH_HandleTypeDef *phost)
+{
+	HID_MOUSE_Info_TypeDef* mouse_info = NULL;
+	HID_KEYBD_Info_TypeDef* keybd_info = NULL;
+	// Check device type
+	switch(USBH_HID_GetDeviceType(phost)){
+	case HID_MOUSE:
+		printf("[USB_MOUSE]");
+		mouse_info = USBH_HID_GetMouseInfo(phost);
+		if(mouse_info){
+			printf("%3d, %3d, %d:%d:%d", mouse_info->x, mouse_info->y, mouse_info->buttons[0], mouse_info->buttons[1], mouse_info->buttons[2]);
+		}else{
+			printf("BUSY");
+		}
+	break;
+	case HID_KEYBOARD: printf("[USB_KEYBOARD]");
+	keybd_info = USBH_HID_GetKeybdInfo(phost);
+	if(keybd_info){
+		printf("STAT: %d", keybd_info->state);
+	}else{
+		printf("BUSY");
+	}
+	break;
+	case HID_UNKNOWN: default: printf("[USB_UNKNOW]"); break;
+	}
+
+	printf("\n");
 }
 
 /*******************************************

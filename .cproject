@@ -32,12 +32,14 @@
 								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.306859695" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false"/>
 								<option id="gnu.c.compiler.option.debugging.level.1546047772" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.853433446" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/inc"/>
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/CMSIS/core"/>
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/CMSIS/device"/>
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/HAL_Driver/Inc"/>
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/HAL_Driver/Inc/Legacy"/>
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/Utilities/STM32L4xx_Nucleo"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/CMSIS/core&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/CMSIS/device&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/HAL_Driver/Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/HAL_Driver/Inc/Legacy&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Utilities/STM32L4xx_Nucleo&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/STM32_USB_Host_Library/Class/HID/Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/STM32_USB_Host_Library/Core/Inc&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.307905007" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32L4"/>
@@ -65,12 +67,14 @@
 							<tool id="fr.ac6.managedbuild.tool.gnu.archiver.1874306321" name="MCU GCC Archiver" superClass="fr.ac6.managedbuild.tool.gnu.archiver"/>
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.assembler.658840595" name="MCU GCC Assembler" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler">
 								<option id="gnu.both.asm.option.include.paths.1316039761" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/inc"/>
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/CMSIS/core"/>
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/CMSIS/device"/>
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/HAL_Driver/Inc"/>
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/HAL_Driver/Inc/Legacy"/>
-									<listOptionValue builtIn="false" value="/home/jackq/course/LabsMicroprocessor/workspace/speed-controller/Utilities/STM32L4xx_Nucleo"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/CMSIS/core&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/CMSIS/device&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/HAL_Driver/Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/HAL_Driver/Inc/Legacy&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Utilities/STM32L4xx_Nucleo&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/STM32_USB_Host_Library/Class/HID/Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/STM32_USB_Host_Library/Core/Inc&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.739768718" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.1219143545" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input"/>
@@ -83,6 +87,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="inc"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="startup"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="STM32_USB_Host_Library"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -120,6 +125,8 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/HAL_Driver/Inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/HAL_Driver/Inc/Legacy&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Utilities/STM32L4xx_Nucleo&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/STM32_USB_Host_Library/Class/HID/Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/STM32_USB_Host_Library/Core/Inc&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1846501562" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32L4"/>
@@ -152,6 +159,8 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/HAL_Driver/Inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/HAL_Driver/Inc/Legacy&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Utilities/STM32L4xx_Nucleo&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/STM32_USB_Host_Library/Class/HID/Inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/STM32_USB_Host_Library/Core/Inc&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1593531958" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.1622088390" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input"/>
@@ -164,6 +173,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="inc"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="startup"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="STM32_USB_Host_Library"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -184,4 +194,5 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

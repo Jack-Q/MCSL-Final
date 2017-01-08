@@ -656,7 +656,7 @@ HAL_StatusTypeDef HAL_HCD_Start(HCD_HandleTypeDef *hhcd)
 { 
   __HAL_LOCK(hhcd); 
   __HAL_HCD_ENABLE(hhcd);
-  USB_DriveVbus(hhcd->Instance, 1);  
+  USB_DriveVbus(hhcd->Instance, 0);
   __HAL_UNLOCK(hhcd); 
   return HAL_OK;
 }

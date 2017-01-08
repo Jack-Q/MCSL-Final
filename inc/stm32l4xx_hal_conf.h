@@ -59,7 +59,7 @@
 /*#define HAL_DCMI_MODULE_ENABLED   */
 /*#define HAL_DFSDM_MODULE_ENABLED   */
 /*#define HAL_FIREWALL_MODULE_ENABLED   */
-/*#define HAL_HCD_MODULE_ENABLED   */
+#define HAL_HCD_MODULE_ENABLED   
 /*#define HAL_I2S_MODULE_ENABLED   */
 /*#define HAL_IRDA_MODULE_ENABLED   */
 /*#define HAL_IWDG_MODULE_ENABLED   */
