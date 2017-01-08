@@ -9,6 +9,7 @@
 #include "key.h"
 #include "usb_host.h"
 #include "usbh_hid.h"
+#include "lcd.h"
 
 // Functions
 void Error_Handler();
@@ -43,6 +44,7 @@ int main(){
 	MX_USART2_UART_Init();
     MX_USB_HOST_Init();
 	NEC_IR_Init();
+	LCD_init();
 
 	// Set interrupt priority
 	HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
@@ -85,7 +87,6 @@ int main(){
 			}else{
 				cmdBuf[pos++] = data;
 			}
-
 		}
 		if(BtUartReady){
 			// Receive data from BlueTooth Module
@@ -98,6 +99,7 @@ int main(){
 		}
 
 	}
+	LCD_updateDisplay();
 }
 
 
