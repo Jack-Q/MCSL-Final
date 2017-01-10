@@ -35,22 +35,16 @@
 #define __MAIN_H
 
 #include "stdio.h"
-  /* Includes ------------------------------------------------------------------*/
+#include "global_state.h"
 
-/* USER CODE BEGIN Includes */
+void IR_receive_callback(uint16_t, uint8_t);
+void IR_repeat_callback();
+void IR_error_callback();
 
-/* USER CODE END Includes */
-
-/* Private define ------------------------------------------------------------*/
-
-#define B1_Pin GPIO_PIN_13
-#define B1_GPIO_Port GPIOC
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
-#define LD2_Pin GPIO_PIN_5
-#define LD2_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14

@@ -33,6 +33,7 @@
   */
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal.h"
+#include "global_state.h"
 
 extern DMA_HandleTypeDef hdma_tim2_ch1;
 

@@ -80,7 +80,7 @@ Key KeySelect(uint8_t buf){
             tmp.keyshow="bksp";
             break;
         case 0x1f:
-            tmp.keyvalue=0x;1E
+            tmp.keyvalue=0x1E;
             tmp.keyshow="del";
             break;
 		case 0x0d:

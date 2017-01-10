@@ -34,6 +34,7 @@
 #include "stm32l4xx_hal.h"
 #include "stm32l4xx.h"
 #include "stm32l4xx_it.h"
+#include "global_state.h"
 
 /* USER CODE BEGIN 0 */
 
