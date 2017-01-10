@@ -5,6 +5,15 @@
 #include "lcd.h"
 #include "usb_host.h"
 
+extern CTRL_status_t global_status;
+
+extern UART_HandleTypeDef huart3, huart2;
+extern RingBuffer pcTxBuf, pcRxBuf, btTxBuf, btRxBuf;
+extern char pcReadBuf[1], btReadBuf[1];
+extern uint8_t pcTxData, btTxData;
+extern __IO ITStatus PcUartReady, BtUartReady;
+
+extern NEC nec;
 
 void Error_Handler();
 static void SystemClock_Config(void);

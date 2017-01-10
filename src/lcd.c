@@ -1,5 +1,9 @@
 #include "lcd.h"
+#include "global_state.h"
 #include "stm32l4xx_ll_gpio.h"
+
+extern CTRL_status_t global_status;
+
 
 static int LCD_FONT_PC[] = {0x00, 0x1f, 0x11, 0x11, 0x1f, 0x04, 0x0e, 0x00};
 static int LCD_FONT_PHONE[] = {0x1f, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1f, 0x1b};
@@ -189,6 +193,27 @@ void LCD_init() {
 	  initTest();
 }
 
+
 void LCD_updateDisplay(){
+	static char buffer[32];
+
+	// draw first row
+	if(global_status.deviceType == CTRL_DEVICETYPE_NC){
+		strcpy(buffer, "PLEASE CONNECT  ");
+	}else{
+		strcpy(buffer, "CONNECT");
+	}
+	LCD_cursor_set(0);
+	WriteStrToLCD(buffer);
+
+	// draw second row
+
+	if(global_status.deviceType == CTRL_DEVICETYPE_NC){
+		strcpy(buffer, " TO SOME DEVICE ");
+	}else{
+		strcpy(buffer, "CONNECT");
+	}
+	LCD_cursor_set(0x40);
+	WriteStrToLCD(buffer);
 
 }

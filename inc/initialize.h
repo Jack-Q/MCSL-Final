@@ -4,8 +4,8 @@
 #include "global_state.h"
 
 
-static TIM_HandleTypeDef htim2;
-static DMA_HandleTypeDef hdma_tim2_ch1;
+extern TIM_HandleTypeDef htim2;
+extern DMA_HandleTypeDef hdma_tim2_ch1;
 
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA

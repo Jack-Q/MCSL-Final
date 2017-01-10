@@ -44,14 +44,4 @@ typedef struct {
 
 } CTRL_status_t;
 
-static CTRL_status_t global_status;
-
-static UART_HandleTypeDef huart3, huart2;
-static RingBuffer pcTxBuf, pcRxBuf, btTxBuf, btRxBuf;
-static char pcReadBuf[1], btReadBuf[1];
-static uint8_t pcTxData, btTxData;
-static __IO ITStatus PcUartReady = SET, BtUartReady = SET;
-
-static NEC nec;
-
 #endif

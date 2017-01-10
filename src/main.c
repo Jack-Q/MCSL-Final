@@ -16,12 +16,19 @@
 #include "usb_host.h"
 #include "usbh_hid.h"
 
+extern CTRL_status_t global_status;
+
+extern UART_HandleTypeDef huart3, huart2;
+extern RingBuffer pcTxBuf, pcRxBuf, btTxBuf, btRxBuf;
+extern char pcReadBuf[1], btReadBuf[1];
+extern uint8_t pcTxData, btTxData;
+extern __IO ITStatus PcUartReady, BtUartReady;
+
+extern NEC nec;
+
 int main()
 {
   initialize();
-
-  char *welcome_string = "Welcome to control panel of BlueTooth module\r\n";
-  printf("%s\r\n", welcome_string);
 
   int pos = 0;
   char cmdBuf[100], data;
@@ -30,6 +37,19 @@ int main()
   while (1)
   {
     MX_USB_HOST_Process();
+    LCD_updateDisplay();
+
+    if (BtUartReady)
+    {
+      // Receive data from BlueTooth Module
+      BtUartReady = RESET;
+      data = btReadBuf[0];
+      HAL_UART_Receive_IT(&huart3, (uint8_t *)btReadBuf, 1);
+
+      // Process received data
+      printf("%c", data);
+    }
+
 
     if (PcUartReady)
     {
@@ -57,18 +77,8 @@ int main()
         cmdBuf[pos++] = data;
       }
     }
-    if (BtUartReady)
-    {
-      // Receive data from BlueTooth Module
-      BtUartReady = RESET;
-      data = btReadBuf[0];
-      HAL_UART_Receive_IT(&huart3, (uint8_t *)btReadBuf, 1);
 
-      // Process received data
-      printf("%c", data);
-    }
   }
-  LCD_updateDisplay();
 }
 
 // Interrupt handler
@@ -131,6 +141,7 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
  */
 void IR_receive_callback(uint16_t address, uint8_t cmd)
 {
+  global_status->irConnected = 1;
   Key key = KeySelect(cmd);
   printf("Key:%s (%2d)\r\n", key.keyshow, key.keyvalue);
 
@@ -142,6 +153,7 @@ void IR_receive_callback(uint16_t address, uint8_t cmd)
 
 void IR_error_callback()
 {
+	  global_status->irConnected = 1;
   printf("Error!\r\n");
   HAL_Delay(10);
   NEC_Read(&nec);
@@ -149,6 +161,7 @@ void IR_error_callback()
 
 void IR_repeat_callback()
 {
+	  global_status->irConnected = 1;
   printf("Repeat!\r\n");
   HAL_Delay(10);
   NEC_Read(&nec);
