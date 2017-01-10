@@ -138,10 +138,11 @@ void WriteStrToLCD(char *str){
 
 
 void init_Font(){
-	int ch1[] = {0x1f, 0x18, 0x14, 0x12, 0x11, 0x00, 0x00, 0x00};
-	int ch2[] = {0x00, 0x00, 0x00, 0x11, 0x09, 0x05, 0x03, 0x1f};
-	CreateFont(0, ch1);
-	CreateFont(1, ch2);
+	CreateFont(3, LCD_FONT_IR);
+	CreateFont(4, LCD_FONT_CTRL);
+	CreateFont(5, LCD_FONT_ALT);
+	CreateFont(6, LCD_FONT_SHIFT);
+	CreateFont(7, LCD_FONT_WIN);
 }
 
 void initTest(){
