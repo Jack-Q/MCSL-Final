@@ -2,7 +2,7 @@
 
 typedef struct{
     int keyvalue;
-    char * keyshow;
+    char *keyshow;
 } Key;
 
 Key KeySelect(uint8_t buf);

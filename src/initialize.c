@@ -1,3 +1,4 @@
+#include "string.h"
 #include "initialize.h"
 #include "stm32l4xx.h"
 #include "global_state.h"
@@ -13,6 +14,7 @@ static void MX_USART3_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM2_Init(void);
 static void NEC_IR_Init(void);
+static void Init_global_state(void);
 
 void initialize()
 {
@@ -36,6 +38,8 @@ void initialize()
     HAL_NVIC_EnableIRQ(OTG_FS_IRQn);
 
     setbuf(stdout, NULL);
+
+    Init_global_state();
 }
 
 /*******************************************
@@ -281,3 +285,29 @@ int __io_putchar(int ch)
         RingBuffer_Write(&pcTxBuf, (uint8_t *)&ch, 1);
     return ch;
 }
+
+
+void Init_global_state() {
+	strcpy(global_status.name, "Not Conn.");
+	global_status.deviceType = CTRL_DEVICETYPE_NC;
+
+	global_status.irConnected = 0;
+	global_status.usbConnected = 0;
+	global_status.usbDeviceType = CTRL_USB_NC;
+
+	global_status.showMessage = 0;
+	global_status.message[0] = 0;
+
+	global_status.min = 0;
+	global_status.dot = 0;
+	global_status.sec = 0;
+
+	global_status.shiftKey = 0;
+	global_status.ctrlKey = 0;
+	global_status.winKey = 0;
+	global_status.altKey = 0;
+
+	global_status.key.keyvalue = -1;
+	global_status.key.keyshow = NULL;
+}
+
