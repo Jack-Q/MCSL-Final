@@ -10,11 +10,13 @@
 ### Board --> Device
 
 * action
+```
   0xaa [Shift|Alt|Ctrl|Win] KeyCode[Python]  
          0x01 Shift           0x00   No key
          0x02 Alt             other  Key Code defined in PyKeyboard
          0x04 Ctrl
          0x08 Win
+```
 
 ## Display
 
