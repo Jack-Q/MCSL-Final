@@ -1,6 +1,8 @@
 #include "initialize.h"
 #include "stm32l4xx.h"
 #include "global_state.h"
+#include "lcd.h"
+#include "usb_host.h"
 
 
 void Error_Handler();
@@ -10,7 +12,6 @@ static void MX_DMA_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM2_Init(void);
-static void MX_USB_HOST_Process(void);
 static void NEC_IR_Init(void);
 
 void initialize()
@@ -18,13 +19,13 @@ void initialize()
     HAL_Init();
     SystemClock_Config();
     MX_GPIO_Init();
+    LCD_init();
     MX_DMA_Init();
     MX_TIM2_Init();
     MX_USART3_UART_Init();
     MX_USART2_UART_Init();
     MX_USB_HOST_Init();
     NEC_IR_Init();
-    LCD_init();
 
     // Set interrupt priority
     HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
@@ -58,6 +59,16 @@ void NEC_IR_Init(void)
 
     NEC_Read(&nec);
 }
+
+
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
+{
+  if (htim == &htim2)
+  {
+    NEC_TIM_IC_CaptureCallback(&nec);
+  }
+}
+
 
 /* System Clock Configuration */
 void SystemClock_Config(void)

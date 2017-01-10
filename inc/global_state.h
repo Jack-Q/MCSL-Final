@@ -6,8 +6,6 @@
 #include "ringbuffer.h"
 #include "stm32l4xx_hal.h"
 
-static TIM_HandleTypeDef htim2;
-static DMA_HandleTypeDef hdma_tim2_ch1;
 
 static UART_HandleTypeDef huart3, huart2;
 static RingBuffer pcTxBuf, pcRxBuf, btTxBuf, btRxBuf;

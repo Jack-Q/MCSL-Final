@@ -154,14 +154,6 @@ void IR_repeat_callback()
   NEC_Read(&nec);
 }
 
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
-{
-  if (htim == &htim2)
-  {
-    NEC_TIM_IC_CaptureCallback(&nec);
-  }
-}
-
 /******************************************
  * USB HID Callbacks
  */
