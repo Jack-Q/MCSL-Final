@@ -284,6 +284,7 @@ static void MX_GPIO_Init(void)
 void Error_Handler()
 {
     // TODO Handle Error
+	printf("ERROR HANDLER");
     while (1)
         ;
 }

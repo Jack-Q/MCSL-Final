@@ -90,7 +90,7 @@ void HAL_HCD_MspInit(HCD_HandleTypeDef* hcdHandle)
     }
     else
     {
-        __HAL_RCC_PWR_CLK_ENABLE();
+      //  __HAL_RCC_PWR_CLK_ENABLE();
       HAL_PWREx_EnableVddUSB();
     }
 
@@ -277,7 +277,7 @@ USBH_SpeedTypeDef USBH_LL_GetSpeed  (USBH_HandleTypeDef *phost)
     break;
 	
   default:  
-   speed = USBH_SPEED_FULL;    
+   speed = USBH_SPEED_LOW;    
     break;  
   }
   return  speed;
@@ -438,7 +438,7 @@ USBH_StatusTypeDef  USBH_LL_DriverVBUS (USBH_HandleTypeDef *phost, uint8_t state
 	  printf("DriveVBUS %s\n", state?"Inactive":"Active");
     if (state == 0)
     {
-    	USB_DriveVbus(((HCD_HandleTypeDef *)phost->pData)->Instance, 0);
+    USB_DriveVbus(((HCD_HandleTypeDef *)phost->pData)->Instance, 0);
       /* Drive high Charge pump */
       /* ToDo: Add IOE driver control */	   
       /* USER CODE BEGIN DRIVE_HIGH_CHARGE_FOR_FS */
@@ -447,7 +447,7 @@ USBH_StatusTypeDef  USBH_LL_DriverVBUS (USBH_HandleTypeDef *phost, uint8_t state
     } 
     else
     {
-    	USB_DriveVbus(((HCD_HandleTypeDef *)phost->pData)->Instance, 1);
+    USB_DriveVbus(((HCD_HandleTypeDef *)phost->pData)->Instance, 1);
       /* Drive low Charge pump */
       /* ToDo: Add IOE driver control */	
       /* USER CODE BEGIN DRIVE_LOW_CHARGE_FOR_FS */
