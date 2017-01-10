@@ -103,7 +103,7 @@ perform the required action, it *may* send a error package to indicate this prob
 
 ## Display
 
-Font Mapping:
+### Font Mapping
 
 ```txt
   [1] Device Icon            => LCD_FONT_PC LCD_FONT_PHONE
@@ -114,4 +114,70 @@ Font Mapping:
   [6] Alt                    => LCD_FONT_ALT
   [7] Shift                  => LCD_FONT_SHIFT
   [8] Win                    => LCD_FONT_WIN
+```
+
+### Display layout/pattern
+
+* Welcome message
+
+```txt
+Row1: "Welcome to use  "
+Row2: "                "
+       ^              ^
+       0             15
+```
+
+* Waiting for connection
+
+```txt
+Row1: "PLEASE CONNECT  "
+Row2: " TO SOME DEVICE "
+       ^              ^
+       0             15
+```
+
+* Connected
+
+```txt
+Row1: [DT][  name   ] [IR][MS]
+      ^   ^         ^ ^   ^
+      0   1        12 14  15
+
+Row2: [KEYS][key name][mm:ss]
+      ^                ^     ^
+      0               11    15
+
+DT:       Device type icon
+name:     Device name
+IR:       Infared remote controller connection status
+MS:       USB mouse connection status
+KEYS:     Functional keys toggle status
+key name: General key
+mm:ss:    Time of connection
+```
+
+* Display message
+
+Message will be displayed on the first row.
+The second is the same as teh connection status.
+
+```txt
+Row1: "[   message    ]"
+       ^              ^
+       0             15
+```
+
+* Display option
+
+Display a option as a simulation of dialog in GUI application.
+
+```txt
+Row1: "[    prompt    ]"
+       ^              ^
+       0             15
+Row1: "? [O1] [O2] [O3]"
+       ^              ^
+       0             15
+
+O1, O2, O3: option 1, option 2 and option 3
 ```
