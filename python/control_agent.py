@@ -19,34 +19,38 @@ PROMPT_OUT = '\033[94m>>\033[0m '
 K = PyKeyboard()
 
 def thread_recv(sock):
+    data_pkg = bytearray()
     while 1:
-        data_pkg = sock.recv(4)
-        if data_pkg[0] == 0xaa:
-            print("key action")
-            if data_pkg[1] & 0x01:
-                K.press_key(K.shift_key)
-            if data_pkg[1] & 0x02:
-                K.press_key(K.alt_key)
-            if data_pkg[1] & 0x04:
-                K.press_key(K.control_key)
-            if data_pkg[1] & 0x08:
-                K.press_key(K.windows_l_key)
-            if data_pkg[2]:
-                K.tap_key(data_pkg[2])
-            if data_pkg[1] & 0x08:
-                K.release_key(K.windows_l_key)
-            if data_pkg[1] & 0x04:
-                K.release_key(K.control_key)
-            if data_pkg[1] & 0x02:
-                K.release_key(K.alt_key)
-            if data_pkg[1] & 0x01:
-                K.release_key(K.shift_key)
-        elif data_pkg[0] == 0x55:
-            print("Mouse action")
-        # print(str(data))
-        # for c in str(data):
-            # if ord(c) > 0: K.tap_key(str(c))
-
+        data = sock.recv(1)
+        print("receive"+str(data))
+        if len(data) > 0: data_pkg.append(data[0])
+        if len(data_pkg) >= 4: 
+            if data_pkg[0] == 0xaa:
+                print("key action")
+                if data_pkg[1] & 0x01:
+                    K.press_key(K.shift_key)
+                if data_pkg[1] & 0x02:
+                    K.press_key(K.alt_key)
+                if data_pkg[1] & 0x04:
+                    K.press_key(K.control_key)
+                if data_pkg[1] & 0x08:
+                    K.press_key(K.windows_l_key)
+                if data_pkg[2]:
+                    K.tap_key(data_pkg[2])
+                if data_pkg[1] & 0x08:
+                    K.release_key(K.windows_l_key)
+                if data_pkg[1] & 0x04:
+                    K.release_key(K.control_key)
+                if data_pkg[1] & 0x02:
+                    K.release_key(K.alt_key)
+                if data_pkg[1] & 0x01:
+                    K.release_key(K.shift_key)
+            elif data_pkg[0] == 0x55:
+                print("Mouse action")
+            # print(str(data))
+            # for c in str(data):
+                # if ord(c) > 0: K.tap_key(str(c))
+            data_pkg = bytearray()
 
 def send_name(sock, name):
     buf = bytearray()

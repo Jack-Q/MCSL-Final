@@ -41,6 +41,7 @@ typedef struct {
 
   uint8_t blueRxReady;
   CTRL_dataPackage_t blueRx;
+  uint8_t blueTxReady;
   CTRL_dataPackage_t blueTx;
 
   uint8_t showMessage;

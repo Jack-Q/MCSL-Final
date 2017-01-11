@@ -51,6 +51,7 @@ void encodeKeyPackage(CTRL_dataPackage_t *pkg) {
     pkg->data[2] = global_status.key.keyvalue;
 
   pkg->data[3] = 0;
+  pkg->pos = 0;
 }
 void encodeMousePackage(CTRL_dataPackage_t *pkg) {
   pkg->data[0] = PKG_TX_MOUSE;
