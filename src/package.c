@@ -64,9 +64,6 @@ void decodePackage(CTRL_dataPackage_t *pkg) {
     case PKG_RX_NAME_1:
     case PKG_RX_NAME_2:
     case PKG_RX_NAME_3:
-      printf("D:%d\n", pkg->data[1]);
-      printf("D:%d\n", pkg->data[2]);
-      printf("D:%d\n", pkg->data[3]);
       memcpy(global_status.name + 3 * (pkg->data[0] & 0x0f), pkg->data + 1, 3);
       break;
 

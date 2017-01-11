@@ -12,8 +12,8 @@
 #include "key.h"
 #include "lcd.h"
 #include "main.h"
-#include "ringbuffer.h"
 #include "package.h"
+#include "ringbuffer.h"
 
 extern CTRL_status_t global_status;
 
@@ -27,14 +27,12 @@ char blueBuffer[100];
 int blueBuffer_begin = 0;
 int blueBuffer_end = 0;
 
-
 int main() {
   initialize();
 
   int pos = 0;
   char cmdBuf[100], data;
   char *send_message = "Send: ";
-
 
   HAL_UART_Receive_IT(&huart3, (uint8_t *)btReadBuf, 1);
 
@@ -53,10 +51,9 @@ int main() {
     }
 
     // Handle Blue-tooth Data
-    if(global_status.blueRxReady){
-    	decodePackage(&global_status.blueRx);
-    	printf("BT %d\n", global_status.blueRx.data[0]);
-    	global_status.blueRxReady = 0;
+    if (global_status.blueRxReady) {
+      decodePackage(&global_status.blueRx);
+      global_status.blueRxReady = 0;
     }
 
     if (PcUartReady) {
@@ -88,17 +85,17 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
   /* Set transmission flag: transfer complete*/
   if (huart->Instance == USART3) {
     // BT
-	blueBuffer[blueBuffer_end++] = btReadBuf[0];
-	if(blueBuffer_end - blueBuffer_begin >= 4 && global_status.blueRxReady == 0){
-		memcpy(global_status.blueRx.data, blueBuffer + blueBuffer_begin, 4);
-		global_status.blueRxReady = 1;
-		blueBuffer_begin += 4;
-		if(blueBuffer_begin == blueBuffer_end){
-			blueBuffer_begin = blueBuffer_end = 0;
-		}
-
-	}
-	HAL_UART_Receive_IT(&huart3, (uint8_t *)btReadBuf, 1);
+    blueBuffer[blueBuffer_end++] = btReadBuf[0];
+    if (blueBuffer_end - blueBuffer_begin >= 4 &&
+        global_status.blueRxReady == 0) {
+      memcpy(global_status.blueRx.data, blueBuffer + blueBuffer_begin, 4);
+      global_status.blueRxReady = 1;
+      blueBuffer_begin += 4;
+      if (blueBuffer_begin == blueBuffer_end) {
+        blueBuffer_begin = blueBuffer_end = 0;
+      }
+    }
+    HAL_UART_Receive_IT(&huart3, (uint8_t *)btReadBuf, 1);
   } else if (huart->Instance == USART2) {
     // PC
     PcUartReady = SET;
