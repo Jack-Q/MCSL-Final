@@ -5,26 +5,27 @@ Dependency:
 	PyUserInput
 	pybulez
 '''
+import threading
+import time
 import bluetooth as bt
 from pymouse import PyMouse
 from pykeyboard import PyKeyboard
-import sys
-import threading
-import time
 
 PROMPT_IN = '\033[92m<<\033[0m '
 PROMPT_OUT = '\033[94m>>\033[0m '
 
 # M = PyMouse()
 K = PyKeyboard()
+NAME = "My Linux"
 
 def thread_recv(sock):
     data_pkg = bytearray()
     while 1:
         data = sock.recv(1)
-        print("receive"+str(data))
-        if len(data) > 0: data_pkg.append(data[0])
-        if len(data_pkg) >= 4: 
+        print("receive" + str(data))
+        if len(data) > 0:
+            data_pkg.append(data[0])
+        if len(data_pkg) >= 4:
             if data_pkg[0] == 0xaa:
                 print("key action")
                 if data_pkg[1] & 0x01:
@@ -52,6 +53,7 @@ def thread_recv(sock):
                 # if ord(c) > 0: K.tap_key(str(c))
             data_pkg = bytearray()
 
+
 def send_name(sock, name):
     buf = bytearray()
     for i, ch in enumerate(name):
@@ -68,12 +70,16 @@ def send_name(sock, name):
         sock.send(bytes(buf))
         time.sleep(0.1)
 
+
 def thread_send(sock):
-    send_name(sock, "My Linux02")
     buf = bytearray((0xff, 0x02, 0x00, 0xaa))
+    i = 0
     while 1:
         sock.send(bytes(buf))
         time.sleep(0.5)
+        i = i + 1
+        if i % 10 == 0:
+            send_name(sock, NAME)
 
 
 def main():
