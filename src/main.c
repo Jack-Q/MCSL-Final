@@ -40,10 +40,10 @@ int main() {
                             // process usart data from PC or bluetooth
 
     // handle offline status
-//    if (HAL_GetTick() - global_status.lastConn > 4000) {
-//      // ~ 2 seconds elapsed after first pacakge send
-//      global_status.deviceType = CTRL_DEVICETYPE_NC;
-//    }
+    if (HAL_GetTick() - global_status.lastConn > 4000) {
+      // ~ 2 seconds elapsed after first pacakge send
+      global_status.deviceType = CTRL_DEVICETYPE_NC;
+    }
 
     // Handle Blue-tooth Data
     if (BtUartReady) {

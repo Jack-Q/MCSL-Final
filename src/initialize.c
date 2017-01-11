@@ -110,7 +110,6 @@ void IR_error_callback()
 void IR_repeat_callback()
 {
     global_status.irConnected = 1;
-    printf("Repeat!\r\n");
     HAL_Delay(10);
     NEC_Read(&nec);
 }
