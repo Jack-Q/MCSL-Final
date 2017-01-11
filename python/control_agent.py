@@ -6,6 +6,7 @@ Dependency:
 	pybulez
 '''
 import threading
+import subprocess
 import time
 import bluetooth as bt
 from pymouse import PyMouse
@@ -17,6 +18,7 @@ PROMPT_OUT = '\033[94m>>\033[0m '
 # M = PyMouse()
 K = PyKeyboard()
 NAME = "My Linux"
+
 
 def thread_recv(sock):
     data_pkg = bytearray()
@@ -53,8 +55,9 @@ def thread_recv(sock):
             elif data_pkg[0] == 0x55:
                 print("Mouse action")
             elif data_pkg[0] == 0xdd:
-                if(data_pkg[3] == 0x01):
-                    print("POWER OFF REQUEST")
+                if data_pkg[3] == 0x01:
+                    subprocess.call(["shutdown", "/r", "/t", "10"])
+                    print("POWER OFF AFTER 10 seconds")
                 print("Action")
             # print(str(data))
             # for c in str(data):
