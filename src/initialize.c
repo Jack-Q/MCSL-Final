@@ -24,6 +24,7 @@ static void MX_USART2_UART_Init(void);
 static void MX_TIM2_Init(void);
 static void NEC_IR_Init(void);
 static void Init_global_state(void);
+void IR_receive_key(Key key);
 
 void initialize()
 {
@@ -79,6 +80,38 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
     {
         NEC_TIM_IC_CaptureCallback(&nec);
     }
+}
+
+/*******************************************
+ * Customized IR Initializer
+ */
+void IR_receive_callback(uint16_t address, uint8_t cmd)
+{
+    global_status.irConnected = 1;
+    IR_receive_key(KeySelect(cmd));
+
+    HAL_Delay(10);
+    NEC_Read(&nec);
+}
+
+void IR_error_callback()
+{
+    global_status.irConnected = 1;
+    printf("Error!\r\n");
+    HAL_Delay(10);
+    NEC_Read(&nec);
+}
+
+void IR_repeat_callback()
+{
+    global_status.irConnected = 1;
+    printf("Repeat!\r\n");
+    HAL_Delay(10);
+    NEC_Read(&nec);
+}
+
+__weak void IR_receive_key(Key key)
+{
 }
 
 /* System Clock Configuration */
@@ -313,6 +346,8 @@ void Init_global_state()
     global_status.min = 0;
     global_status.dot = 0;
     global_status.sec = 0;
+
+    global_status.keySent = 0;
 
     global_status.shiftKey = 0;
     global_status.ctrlKey = 0;
