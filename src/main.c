@@ -14,6 +14,7 @@
 #include "main.h"
 #include "package.h"
 #include "ringbuffer.h"
+#include "message.h"
 
 extern CTRL_status_t global_status;
 
@@ -44,7 +45,7 @@ int main() {
     CTRL_timeUpdate();      // update time display
     LCD_updateFont();       // update LCD font
     LCD_updateDisplay();    // update LCD display
-                            // process usart data from PC or bluetooth
+    updateMessage();
 
     // handle offline status
     if (HAL_GetTick() - global_status.lastConn > 4000) {
@@ -167,6 +168,7 @@ void IR_receive_key(Key key) {
 	  if(global_status.actCode == CTRL_ACTION_POWER){
 		  if(key.keyvalue == KEY_VALUE_OK){
 			  global_status.actReady = 1;
+			  displayMessage("Action sent");
 		  }else{
 			  global_status.actCode = CTRL_ACTION_NOP;
 		  }

@@ -341,7 +341,6 @@ void Init_global_state()
     global_status.blueTxReady = 1;
 
     global_status.showMessage = 0;
-    global_status.messageElapse = 0;
     global_status.message[0] = 0;
 
     global_status.showOption = 0;

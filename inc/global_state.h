@@ -50,7 +50,6 @@ typedef struct {
   CTRL_dataPackage_t blueTx;
 
   uint8_t showMessage;
-  int messageElapse;
   char message[17];
 
   uint8_t showOption;
