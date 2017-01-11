@@ -4,176 +4,219 @@ Key KeySelect(uint8_t buf) {
   Key tmp;
   switch (buf) {
     case 0x19:
-      tmp.keyvalue = 0x00;
-      tmp.keyshow = "combine";
+      tmp.keyvalue = KEY_VALUE_SEND;
+      tmp.keyshow = "send";
+      tmp.virtualCode = 0x;
       break;
     case 0x0a:
       tmp.keyvalue = KEY_VALUE_POWER;  // 0x06
       tmp.keyshow = "Turn off";
+      tmp.virtualCode = 0x;
       break;
     case 0x14:
       tmp.keyvalue = KEY_VALUE_CTRL;  // 0x02
       tmp.keyshow = "ctrl";
+      tmp.virtualCode = 0x;
       break;
     case 0x17:
       tmp.keyvalue = KEY_VALUE_SHIFT;  // 0x03
       tmp.keyshow = "shift";
+      tmp.virtualCode = 0x;
       break;
     case 0x1d:
       tmp.keyvalue = KEY_VALUE_ALT;  // 0x04
       tmp.keyshow = "alt";
+      tmp.virtualCode = 0x;
       break;
     case 0x43:
       tmp.keyvalue = KEY_VALUE_WIN;  // 0x05
       tmp.keyshow = "windows";
+      tmp.virtualCode = 0x;
       break;
     case 0x01:
       tmp.keyvalue = 0x11;
       tmp.keyshow = "F1";
+      tmp.virtualCode = 0x;
       break;
     case 0x02:
       tmp.keyvalue = 0x12;
       tmp.keyshow = "F2";
+      tmp.virtualCode = 0x;
       break;
     case 0x03:
       tmp.keyvalue = 0x13;
       tmp.keyshow = "F3";
+      tmp.virtualCode = 0x;
       break;
     case 0x04:
       tmp.keyvalue = 0x14;
       tmp.keyshow = "F4";
+      tmp.virtualCode = 0x;
       break;
     case 0x05:
       tmp.keyvalue = 0x15;
       tmp.keyshow = "F5";
+      tmp.virtualCode = 0x;
       break;
     case 0x06:
       tmp.keyvalue = 0x16;
       tmp.keyshow = "F6";
+      tmp.virtualCode = 0x;
       break;
     case 0x07:
       tmp.keyvalue = 0x17;
       tmp.keyshow = "F7";
+      tmp.virtualCode = 0x;
       break;
     case 0x08:
       tmp.keyvalue = 0x18;
       tmp.keyshow = "F8";
+      tmp.virtualCode = 0x;
       break;
     case 0x09:
       tmp.keyvalue = 0x19;
       tmp.keyshow = "F9";
+      tmp.virtualCode = 0x;
       break;
     case 0x40:
       tmp.keyvalue = 0x1A;
       tmp.keyshow = "F10";
+      tmp.virtualCode = 0x;
       break;
     case 0x00:
       tmp.keyvalue = 0x1B;
       tmp.keyshow = "F11";
+      tmp.virtualCode = 0x;
       break;
     case 0x45:
       tmp.keyvalue = 0x1C;
       tmp.keyshow = "F12";
+      tmp.virtualCode = 0x;
       break;
     case 0x16:
       tmp.keyvalue = 0x1D;
       tmp.keyshow = "bksp";
+      tmp.virtualCode = 0x;
       break;
     case 0x1f:
       tmp.keyvalue = 0x1E;
       tmp.keyshow = "del";
+      tmp.virtualCode = 0x;
       break;
     case 0x0d:
       tmp.keyvalue = KEY_VALUE_OK;
       tmp.keyshow = "enter";
+      tmp.virtualCode = 0x;
       break;
     case 0x0b:
       tmp.keyvalue = 0x20;
       tmp.keyshow = "up";
+      tmp.virtualCode = 0x;
       break;
     case 0x0e:
       tmp.keyvalue = 0x21;
       tmp.keyshow = "down";
+      tmp.virtualCode = 0x;
       break;
     case 0x10:
       tmp.keyvalue = 0x22;
       tmp.keyshow = "right";
+      tmp.virtualCode = 0x;
       break;
     case 0x11:
       tmp.keyvalue = 0x23;
       tmp.keyshow = "left";
+      tmp.virtualCode = 0x;
       break;
     case 0x1a:
       tmp.keyvalue = 0x24;
       tmp.keyshow = "A";
+      tmp.virtualCode = 0x;
       break;
     case 0x1b:
       tmp.keyvalue = 0x25;
       tmp.keyshow = "B";
+      tmp.virtualCode = 0x;
       break;
     case 0x41:
       tmp.keyvalue = 0x26;
       tmp.keyshow = "C";
+      tmp.virtualCode = 0x;
       break;
     case 0x42:
       tmp.keyvalue = 0x27;
       tmp.keyshow = "V";
+      tmp.virtualCode = 0x;
       break;
     case 0x1c:
       tmp.keyvalue = 0x28;
       tmp.keyshow = "F";
+      tmp.virtualCode = 0x;
       break;
     case 0x44:
       tmp.keyvalue = 0x29;
       tmp.keyshow = "G";
+      tmp.virtualCode = 0x;
       break;
     case 0x0c:
       tmp.keyvalue = 0x2A;
       tmp.keyshow = "H";
+      tmp.virtualCode = 0x;
       break;
     case 0x15:
       tmp.keyvalue = 0x2B;
       tmp.keyshow = "D";
+      tmp.virtualCode = 0x;
       break;
     case 0x18:
       tmp.keyvalue = 0x2C;
       tmp.keyshow = "R";
+      tmp.virtualCode = 0x;
       break;
     case 0x54:
       tmp.keyvalue = 0x2D;
       tmp.keyshow = "Z";
+      tmp.virtualCode = 0x;
       break;
     case 0x48:
       tmp.keyvalue = 0x2E;
       tmp.keyshow = "Y";
+      tmp.virtualCode = 0x;
       break;
     case 0x12:
       tmp.keyvalue = 0x2F;
       tmp.keyshow = "X";
+      tmp.virtualCode = 0x;
       break;
     case 0x50:
       tmp.keyvalue = 0x30;
       tmp.keyshow = "S";
+      tmp.virtualCode = 0x;
       break;
     case 0x58:
       tmp.keyvalue = 0x31;
       tmp.keyshow = "T";
+      tmp.virtualCode = 0x;
       break;
     case 0x4c:
       tmp.keyvalue = 0x32;
       tmp.keyshow = "W";
+      tmp.virtualCode = 0x;
       break;
     case 0x13:
       tmp.keyvalue = 0x33;
       tmp.keyshow = "`U";
+      tmp.virtualCode = 0x;
       break;
     case 0x0f:
       tmp.keyvalue = 0x34;
       tmp.keyshow = "tab";
+      tmp.virtualCode = 0x;
       break;
     default:
       tmp.keyvalue = -1;
       tmp.keyshow = "";
+      tmp.virtualCode = 0x;
       break;
   }
   return tmp;
