@@ -1,4 +1,28 @@
-# Bluetooth & USB & IR Controller
+# Bluetooth & IR Controller
+
+## Introduction
+
+## Structual diagram
+
+## Hardware
+
+* STM32 Nucleo-64 development board with STM32L476RG MCU
+* HC-05 / HC-06 Bluetooth module
+* Infrared (IR) receiver
+* LCD (16&times;2)
+
+
+## Develop environment
+
+This repo is a Eclipse project with "AC6 System Workbench for STM32" plugin support.
+For detailed description, refer to [STMicroelectronics's website](http://www.st.com/en/development-tools/sw4stm32.html).
+
+## Clinet program
+
+To perform the requested key events (as well as other special events), 
+some client program should run on the target platform. Currently, 
+a Python script is provided to be used on Windows platform. 
+[Python Script](./python/)
 
 ## Communication Protocol
 
@@ -37,6 +61,8 @@ This may not be displayed owing to various reasons.
 
 This string transimtted use a terminator '\0' as C language.
 
+*This was not fully implemented.*
+
 ```txt
   0x70 [char-00] [char-01] [char-02]
   0x71 [char-03] [char-04] [char-05]
@@ -59,6 +85,8 @@ Support a general mouse with 3 buttons (left, right, middle), and a scrollable
 middle wheel (scroll up or down one unit each time), and a relative coordination
 based positioning method (each movement is represented in one byte in each 
 orientation/axis in 2D plane).
+
+*This was not fully implemented.*
 
 ```txt
   0x55 [left|right|middle|scrollUp|scrollDown] dX dY
@@ -151,9 +179,10 @@ DT:       Device type icon
 name:     Device name
 IR:       Infared remote controller connection status
 MS:       USB mouse connection status
+          (Currently, this was temporarily replaced with number lock)
 KEYS:     Functional keys toggle status
 key name: General key
-mm:ss:    Time of connection
+mm:ss:    Time of running
 ```
 
 * Display message
@@ -175,9 +204,9 @@ Display a option as a simulation of dialog in GUI application.
 Row1: "[    prompt    ]"
        ^              ^
        0             15
-Row1: "? [O1] [O2] [O3]"
+Row1: "? [  options  ]"
        ^              ^
        0             15
 
-O1, O2, O3: option 1, option 2 and option 3
+Options section may have different layout according to the type of option.
 ```
