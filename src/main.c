@@ -164,6 +164,11 @@ void BlueToothSend() {
 
 // Callback when IR receive key press (exclude repeated key press)
 void IR_receive_key(Key key) {
+ if(key.keyvalue == KEY_VALUE_NUM_LOCK){
+	 global_status.numberLock = !global_status.numberLock;
+	 return;
+ }
+
   if (global_status.showOption){
 	  if(global_status.actCode == CTRL_ACTION_POWER){
 		  if(key.keyvalue == KEY_VALUE_OK){

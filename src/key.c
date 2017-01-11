@@ -1,4 +1,8 @@
 #include "key.h"
+#include "global_state.h"
+
+extern CTRL_status_t global_status;
+
 
 Key KeySelect(uint8_t buf) {
   Key tmp;
@@ -59,7 +63,7 @@ Key KeySelect(uint8_t buf) {
 	  if (global_status.numberLock) {
         tmp.keyvalue = 0x13;
         tmp.keyshow = " 3 ";
-        tmp.virtualCode = 0x32;
+        tmp.virtualCode = 0x33;
       } else {
         tmp.keyvalue = 0x13;
         tmp.keyshow = "F3";
@@ -70,7 +74,7 @@ Key KeySelect(uint8_t buf) {
 	  if (global_status.numberLock) {
         tmp.keyvalue = 0x14;
         tmp.keyshow = " 4 ";
-        tmp.virtualCode = 0x33;
+        tmp.virtualCode = 0x34;
       } else {
         tmp.keyvalue = 0x14;
         tmp.keyshow = "F4";
@@ -81,7 +85,7 @@ Key KeySelect(uint8_t buf) {
 	  if (global_status.numberLock) {
         tmp.keyvalue = 0x15;
         tmp.keyshow = " 5 ";
-        tmp.virtualCode = 0x34;
+        tmp.virtualCode = 0x35;
       } else {
         tmp.keyvalue = 0x15;
         tmp.keyshow = "F5";
@@ -92,7 +96,7 @@ Key KeySelect(uint8_t buf) {
 	  if (global_status.numberLock) {
         tmp.keyvalue = 0x16;
         tmp.keyshow = " 6 ";
-        tmp.virtualCode = 0x35;
+        tmp.virtualCode = 0x36;
       } else {
         tmp.keyvalue = 0x16;
         tmp.keyshow = "F6";
@@ -103,7 +107,7 @@ Key KeySelect(uint8_t buf) {
 	  if (global_status.numberLock) {
         tmp.keyvalue = 0x17;
         tmp.keyshow = " 7 ";
-        tmp.virtualCode = 0x36;
+        tmp.virtualCode = 0x37;
       } else {
         tmp.keyvalue = 0x17;
         tmp.keyshow = "F7";
@@ -114,7 +118,7 @@ Key KeySelect(uint8_t buf) {
 	  if (global_status.numberLock) {
         tmp.keyvalue = 0x18;
         tmp.keyshow = " 8 ";
-        tmp.virtualCode = 0x37;
+        tmp.virtualCode = 0x38;
       } else {
         tmp.keyvalue = 0x18;
         tmp.keyshow = "F8";
@@ -125,7 +129,7 @@ Key KeySelect(uint8_t buf) {
 	  if (global_status.numberLock) {
         tmp.keyvalue = 0x19;
         tmp.keyshow = " 9 ";
-        tmp.virtualCode = 0x38;
+        tmp.virtualCode = 0x39;
       } else {
         tmp.keyvalue = 0x19;
         tmp.keyshow = "F9";

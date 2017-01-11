@@ -233,6 +233,7 @@ void LCD_init() {
 void LCD_updateFont() {
   static CTRL_deviceType_t currentDeviceType = 0;
   static CTRL_usbType_t currentUsbType = 0;
+  static uint8_t currentNumberLock = 0;
 
   if (currentDeviceType != global_status.deviceType) {
     currentDeviceType = global_status.deviceType;
@@ -266,6 +267,16 @@ void LCD_updateFont() {
         break;
     }
   }
+
+  if(currentNumberLock != global_status.numberLock){
+	  currentNumberLock = global_status.numberLock;
+	  // Number lock
+	  if(global_status.numberLock){
+	        CreateFont(LCD_CUSTOME_MouseKybd_R, LCD_FONT_PHONE);
+	  }else{
+	        CreateFont(LCD_CUSTOME_MouseKybd_R, LCD_FONT_SPACE);
+	  }
+  }
 }
 
 void LCD_updateDisplay() {
@@ -286,6 +297,9 @@ void LCD_updateDisplay() {
     buffer[12] = ' ';
     buffer[13] = LCD_CUSTOME_MouseKybd_L;
     buffer[14] = LCD_CUSTOME_MouseKybd_R;
+
+
+
     buffer[15] = LCD_CUSTOME_IR;
   }
   LCD_cursor_set(0);
