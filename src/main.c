@@ -32,8 +32,9 @@ int main() {
 	uint32_t lastBtReady = HAL_GetTick();
 
 	while (1) {
-		MX_USB_HOST_Process();
-		LCD_updateDisplay();
+		MX_USB_HOST_Process(); // handle background USB process
+		CTRL_timeUpdate();		 // update time display
+		LCD_updateDisplay();	 // update LCD display
 
 		// Handle Blue-tooth Data
 		if (BtUartReady) {

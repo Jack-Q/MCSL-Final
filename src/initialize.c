@@ -4,6 +4,7 @@
 #include "stm32l4xx.h"
 #include "string.h"
 #include "usb_host.h"
+#include "ctrl_time.h"
 
 extern CTRL_status_t global_status;
 
@@ -50,6 +51,7 @@ void initialize()
     setbuf(stdout, NULL);
 
     Init_global_state();
+    CTRL_timeReset();
 }
 
 /*******************************************
