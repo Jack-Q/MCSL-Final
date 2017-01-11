@@ -6,6 +6,9 @@
 // Initialize
 void LCD_init();
 
+// Update font of device icon,
+void LCD_updateFont();
+
 // Display Buffer
 void LCD_updateDisplay();
 

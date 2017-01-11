@@ -20,7 +20,7 @@ typedef enum {
 } CTRL_usbType_t;
 
 typedef enum {
-    CTRL_OPTION_OK = 0x0，      // OK only
+    CTRL_OPTION_OK = 0x0,      // OK only
     CTRL_OPTION_YES_NO = 0x1,   // Yes, No
     CTRL_OPTION_SURE_CANC = 0x2 // Sure, Cancel
 } CTRL_optionType_t;
@@ -38,8 +38,8 @@ typedef struct
     char message[17];
 
     uint8_t showOption;
-    CTRL_optionType_t optonType;
-
+    char optionPrompt[17];
+    CTRL_optionType_t optionType;
 
     uint8_t min; // Minute
     char dot;    // : or []
@@ -49,7 +49,7 @@ typedef struct
     uint8_t ctrlKey;  // CTRL Key Toggle
     uint8_t winKey;   // Win Key Toggle
     uint8_t altKey;   // ALT Key Toggle
-    Key key;	  // General Key
+    Key key;          // General Key
 
 } CTRL_status_t;
 

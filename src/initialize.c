@@ -1,8 +1,8 @@
-#include "string.h"
-#include "initialize.h"
-#include "stm32l4xx.h"
 #include "global_state.h"
+#include "initialize.h"
 #include "lcd.h"
+#include "stm32l4xx.h"
+#include "string.h"
 #include "usb_host.h"
 
 extern CTRL_status_t global_status;
@@ -73,15 +73,13 @@ void NEC_IR_Init(void)
     NEC_Read(&nec);
 }
 
-
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
-  if (htim == &htim2)
-  {
-    NEC_TIM_IC_CaptureCallback(&nec);
-  }
+    if (htim == &htim2)
+    {
+        NEC_TIM_IC_CaptureCallback(&nec);
+    }
 }
-
 
 /* System Clock Configuration */
 void SystemClock_Config(void)
@@ -284,7 +282,7 @@ static void MX_GPIO_Init(void)
 void Error_Handler()
 {
     // TODO Handle Error
-	printf("ERROR HANDLER");
+    printf("ERROR HANDLER");
     while (1)
         ;
 }
@@ -296,28 +294,31 @@ int __io_putchar(int ch)
     return ch;
 }
 
+void Init_global_state()
+{
+    strcpy(global_status.name, "Not Conn.");
+    global_status.deviceType = CTRL_DEVICETYPE_NC;
 
-void Init_global_state() {
-	strcpy(global_status.name, "Not Conn.");
-	global_status.deviceType = CTRL_DEVICETYPE_NC;
+    global_status.irConnected = 0;
+    global_status.usbConnected = 0;
+    global_status.usbDeviceType = CTRL_USB_NC;
 
-	global_status.irConnected = 0;
-	global_status.usbConnected = 0;
-	global_status.usbDeviceType = CTRL_USB_NC;
+    global_status.showMessage = 0;
+    global_status.message[0] = 0;
 
-	global_status.showMessage = 0;
-	global_status.message[0] = 0;
+    global_status.showOption = 0;
+    global_status.optionPrompt[0] = 0;
+    global_status.optionType = CTRL_OPTION_OK;
 
-	global_status.min = 0;
-	global_status.dot = 0;
-	global_status.sec = 0;
+    global_status.min = 0;
+    global_status.dot = 0;
+    global_status.sec = 0;
 
-	global_status.shiftKey = 0;
-	global_status.ctrlKey = 0;
-	global_status.winKey = 0;
-	global_status.altKey = 0;
+    global_status.shiftKey = 0;
+    global_status.ctrlKey = 0;
+    global_status.winKey = 0;
+    global_status.altKey = 0;
 
-	global_status.key.keyvalue = -1;
-	global_status.key.keyshow = NULL;
+    global_status.key.keyvalue = -1;
+    global_status.key.keyshow = NULL;
 }
-

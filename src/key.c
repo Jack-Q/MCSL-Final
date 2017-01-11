@@ -171,6 +171,10 @@ Key KeySelect(uint8_t buf){
             tmp.keyvalue=0x34;
             tmp.keyshow="tab";
             break;
+		default:
+			tmp.keyvalue = -1;
+			tmp.keyshow = "";
+			break;
         }
     return tmp;
 }

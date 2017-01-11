@@ -106,14 +106,14 @@ perform the required action, it *may* send a error package to indicate this prob
 ### Font Mapping
 
 ```txt
-  [1] Device Icon            => LCD_FONT_PC LCD_FONT_PHONE
-  [2] Mouse/Keyboard (left)  => LCD_FONT_MOUSE_L LCD_FONT_KEYBOARD_L
-  [3] Mouse/Keyboard (right) => LCD_FONT_MOUSE_R LCD_FONT_KEYBOARD_R
-  [4] IR                     => LCD_FONT_IR
-  [5] Ctrl                   => LCD_FONT_CTRL
-  [6] Alt                    => LCD_FONT_ALT
-  [7] Shift                  => LCD_FONT_SHIFT
-  [8] Win                    => LCD_FONT_WIN
+  [0] Device Icon            => LCD_FONT_PC LCD_FONT_PHONE
+  [1] Mouse/Keyboard (left)  => LCD_FONT_MOUSE_L LCD_FONT_KEYBOARD_L
+  [2] Mouse/Keyboard (right) => LCD_FONT_MOUSE_R LCD_FONT_KEYBOARD_R
+  [3] IR                     => LCD_FONT_IR
+  [4] Ctrl                   => LCD_FONT_CTRL
+  [5] Alt                    => LCD_FONT_ALT
+  [6] Shift                  => LCD_FONT_SHIFT
+  [7] Win                    => LCD_FONT_WIN
 ```
 
 ### Display layout/pattern
@@ -139,9 +139,9 @@ Row2: " TO SOME DEVICE "
 * Connected
 
 ```txt
-Row1: [DT][  name   ] [IR][MS]
+Row1: [DT][  name   ] [MS][IR]
       ^   ^         ^ ^   ^
-      0   1        12 14  15
+      0   1        11 13  15
 
 Row2: [KEYS][key name][mm:ss]
       ^                ^     ^
