@@ -186,6 +186,12 @@ void IR_receive_key(Key key) {
     global_status.key.keyvalue = -1;
   }
   switch (key.keyvalue) {
+
+  case KEY_VALUE_SEND:
+	  global_status.key.keyvalue = 0;
+	  global_status.key.virtualCode = 0;
+	  global_status.keyReady = 1;
+	  break;
     case KEY_VALUE_POWER:
       strcpy(global_status.optionPrompt, "Sure to turn off?");
       global_status.actCode = CTRL_ACTION_POWER;
@@ -209,6 +215,7 @@ void IR_receive_key(Key key) {
     default:  // General keys
       global_status.key.keyshow = key.keyshow;
       global_status.key.keyvalue = key.keyvalue;
+      global_status.key.virtualCode = key.virtualCode;
       global_status.keyReady = 1;
       break;
   }

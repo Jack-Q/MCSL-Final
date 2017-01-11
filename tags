@@ -4,11 +4,12 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-K	python/control_agent.py	/^K = PyKeyboard()$/;"	kind:variable	line:19
-PROMPT_IN	python/control_agent.py	/^PROMPT_IN = '\\033[92m<<\\033[0m '$/;"	kind:variable	line:15
-PROMPT_OUT	python/control_agent.py	/^PROMPT_OUT = '\\033[94m>>\\033[0m '$/;"	kind:variable	line:16
+K	python/control_agent.py	/^K = PyKeyboard()$/;"	kind:variable	line:18
+NAME	python/control_agent.py	/^NAME = "My Linux"$/;"	kind:variable	line:19
+PROMPT_IN	python/control_agent.py	/^PROMPT_IN = '\\033[92m<<\\033[0m '$/;"	kind:variable	line:14
+PROMPT_OUT	python/control_agent.py	/^PROMPT_OUT = '\\033[94m>>\\033[0m '$/;"	kind:variable	line:15
 control_agent.py	python/control_agent.py	1;"	kind:file	line:1
-main	python/control_agent.py	/^def main():$/;"	kind:function	line:73
-send_name	python/control_agent.py	/^def send_name(sock, name):$/;"	kind:function	line:51
+main	python/control_agent.py	/^def main():$/;"	kind:function	line:93
+send_name	python/control_agent.py	/^def send_name(sock, name):$/;"	kind:function	line:65
 thread_recv	python/control_agent.py	/^def thread_recv(sock):$/;"	kind:function	line:21
-thread_send	python/control_agent.py	/^def thread_send(sock):$/;"	kind:function	line:65
+thread_send	python/control_agent.py	/^def thread_send(sock):$/;"	kind:function	line:82

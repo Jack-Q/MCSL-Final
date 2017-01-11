@@ -34,9 +34,15 @@ Key KeySelect(uint8_t buf) {
       tmp.virtualCode = 0x5B;
       break;
     case 0x01:
-      tmp.keyvalue = 0x11;
-      tmp.keyshow = "F1";
-      tmp.virtualCode = 0x70;
+      if (global_status.numberLock) {
+        tmp.keyvalue = 0x11;
+        tmp.keyshow = " 1 ";
+        tmp.virtualCode = 0x31;
+      } else {
+        tmp.keyvalue = 0x11;
+        tmp.keyshow = "F1";
+        tmp.virtualCode = 0x70;
+      }
       break;
     case 0x02:
       tmp.keyvalue = 0x12;

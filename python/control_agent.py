@@ -38,6 +38,7 @@ def thread_recv(sock):
                     K.press_key(K.windows_l_key)
                 if data_pkg[2]:
                     try:
+                        print(str(data_pkg[2]))
                         K.tap_key(data_pkg[2])
                     except:
                         print("unknown key")
@@ -70,7 +71,7 @@ def send_name(sock, name):
         if i % 3 == 2:
             sock.send(bytes(buf))
             time.sleep(0.1)
-            buf.clear()
+            buf = bytearray()
     if len(buf) > 0:
         while len(buf) < 4:
             buf.append(0)
@@ -79,7 +80,7 @@ def send_name(sock, name):
 
 
 def thread_send(sock):
-    buf = bytearray((0xff, 0x02, 0x00, 0xaa))
+    buf = bytearray((0xff, 0x01, 0x00, 0xaa))
     i = 0
     while 1:
         sock.send(bytes(buf))

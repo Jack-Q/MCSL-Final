@@ -26,8 +26,8 @@ typedef enum {
 } CTRL_optionType_t;
 
 typedef enum {
-  CTRL_ACTION_NOP = 0x0, 	  // No operation
-  CTRL_ACTION_POWER = 0x1     // power off
+  CTRL_ACTION_NOP = 0x0,   // No operation
+  CTRL_ACTION_POWER = 0x1  // power off
 } CTRL_actionType_t;
 
 typedef struct {
@@ -36,6 +36,8 @@ typedef struct {
 } CTRL_dataPackage_t;
 
 typedef struct {
+  uint8_t numberLock;
+
   char name[12];
   CTRL_deviceType_t deviceType;
   int lastConn;

@@ -45,10 +45,10 @@ void encodeKeyPackage(CTRL_dataPackage_t *pkg) {
   if (global_status.altKey) pkg->data[1] |= PKG_KEY_ALT;
   if (global_status.winKey) pkg->data[1] |= PKG_KEY_WIN;
 
-  if (global_status.key.keyvalue == -1)
+  if (global_status.key.keyvalue == -1 || global_status.key.virtualCode == 0)
     pkg->data[2] = 0;
   else
-    pkg->data[2] = global_status.key.keyvalue;
+    pkg->data[2] = global_status.key.virtualCode;
 
   pkg->data[3] = 0;
   pkg->pos = 0;

@@ -10,7 +10,7 @@
 #define KEY_VALUE_WIN 0x05
 #define KEY_VALUE_POWER 0x06
 #define KEY_VALUE_OK 0x07
-
+#define KEY_VALUE_NUM_LOCK 0x33
 
 typedef struct {
   int keyvalue;
