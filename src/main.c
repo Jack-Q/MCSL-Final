@@ -13,6 +13,7 @@
 #include "lcd.h"
 #include "main.h"
 #include "ringbuffer.h"
+#include "package.h"
 
 extern CTRL_status_t global_status;
 
@@ -22,6 +23,11 @@ extern char pcReadBuf[1], btReadBuf[1];
 extern uint8_t pcTxData, btTxData;
 extern __IO ITStatus PcUartReady, BtUartReady;
 
+char blueBuffer[100];
+int blueBuffer_begin = 0;
+int blueBuffer_end = 0;
+
+
 int main() {
   initialize();
 
@@ -29,8 +35,8 @@ int main() {
   char cmdBuf[100], data;
   char *send_message = "Send: ";
 
-  // TODO: Test
-  global_status.deviceType = CTRL_DEVICETYPE_PC;
+
+  HAL_UART_Receive_IT(&huart3, (uint8_t *)btReadBuf, 1);
 
   while (1) {
     MX_USB_HOST_Process();  // handle background USB process
@@ -43,19 +49,14 @@ int main() {
     if (HAL_GetTick() - global_status.lastConn > 4000) {
       // ~ 2 seconds elapsed after first pacakge send
       global_status.deviceType = CTRL_DEVICETYPE_NC;
+      blueBuffer_begin = blueBuffer_end = 0;
     }
 
     // Handle Blue-tooth Data
-    if (BtUartReady) {
-      if (global_status.deviceType != CTRL_DEVICETYPE_PHONE) {
-      }
-      // Receive data from BlueTooth Module
-      BtUartReady = RESET;
-      data = btReadBuf[0];
-      HAL_UART_Receive_IT(&huart3, (uint8_t *)btReadBuf, 1);
-
-      // Process received data
-      printf("%c", data);
+    if(global_status.blueRxReady){
+    	decodePackage(&global_status.blueRx);
+    	printf("BT %d\n", global_status.blueRx.data[0]);
+    	global_status.blueRxReady = 0;
     }
 
     if (PcUartReady) {
@@ -87,7 +88,17 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
   /* Set transmission flag: transfer complete*/
   if (huart->Instance == USART3) {
     // BT
-    BtUartReady = SET;
+	blueBuffer[blueBuffer_end++] = btReadBuf[0];
+	if(blueBuffer_end - blueBuffer_begin >= 4 && global_status.blueRxReady == 0){
+		memcpy(global_status.blueRx.data, blueBuffer + blueBuffer_begin, 4);
+		global_status.blueRxReady = 1;
+		blueBuffer_begin += 4;
+		if(blueBuffer_begin == blueBuffer_end){
+			blueBuffer_begin = blueBuffer_end = 0;
+		}
+
+	}
+	HAL_UART_Receive_IT(&huart3, (uint8_t *)btReadBuf, 1);
   } else if (huart->Instance == USART2) {
     // PC
     PcUartReady = SET;

@@ -1,0 +1,14 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+K	python/control_agent.py	/^K = PyKeyboard()$/;"	kind:variable	line:19
+PROMPT_IN	python/control_agent.py	/^PROMPT_IN = '\\033[92m<<\\033[0m '$/;"	kind:variable	line:15
+PROMPT_OUT	python/control_agent.py	/^PROMPT_OUT = '\\033[94m>>\\033[0m '$/;"	kind:variable	line:16
+control_agent.py	python/control_agent.py	1;"	kind:file	line:1
+main	python/control_agent.py	/^def main():$/;"	kind:function	line:73
+send_name	python/control_agent.py	/^def send_name(sock, name):$/;"	kind:function	line:51
+thread_recv	python/control_agent.py	/^def thread_recv(sock):$/;"	kind:function	line:21
+thread_send	python/control_agent.py	/^def thread_send(sock):$/;"	kind:function	line:65

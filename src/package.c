@@ -64,6 +64,9 @@ void decodePackage(CTRL_dataPackage_t *pkg) {
     case PKG_RX_NAME_1:
     case PKG_RX_NAME_2:
     case PKG_RX_NAME_3:
+      printf("D:%d\n", pkg->data[1]);
+      printf("D:%d\n", pkg->data[2]);
+      printf("D:%d\n", pkg->data[3]);
       memcpy(global_status.name + 3 * (pkg->data[0] & 0x0f), pkg->data + 1, 3);
       break;
 
@@ -81,12 +84,14 @@ void decodePackage(CTRL_dataPackage_t *pkg) {
       break;
 
     case PKG_RX_CONNECT:
-      if (global_status.deviceType == CTRL_DEVICETYPE_NC) {
-        // New connection
-        global_status.deviceType =
-            pkg->data[1] == PKG_CONN_PC ? CTRL_DEVICETYPE_PC : CTRL_DEVICETYPE_PHONE;
-        memset(global_status.name, 0, sizeof(global_status.name));
-      }
+
+      // if (global_status.deviceType == CTRL_DEVICETYPE_NC) {
+      //   // New connection
+      //   // memset(global_status.name, 0, sizeof(global_status.name));
+      // }
+      global_status.deviceType = pkg->data[1] == PKG_CONN_PC
+                                     ? CTRL_DEVICETYPE_PC
+                                     : CTRL_DEVICETYPE_PHONE;
       global_status.lastConn = HAL_GetTick();
       break;
   }

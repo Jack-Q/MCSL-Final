@@ -39,6 +39,10 @@ typedef struct {
   CTRL_usbType_t usbDeviceType;
   uint8_t irConnected;
 
+  uint8_t blueRxReady;
+  CTRL_dataPackage_t blueRx;
+  CTRL_dataPackage_t blueTx;
+
   uint8_t showMessage;
   char message[17];
 

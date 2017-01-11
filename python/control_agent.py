@@ -52,18 +52,20 @@ def send_name(sock, name):
     buf = bytearray()
     for i, ch in enumerate(name):
         if i % 3 == 0:
-            buf.append(0x20 + i // 3)
+            buf.append(0x20 + (i // 3))
         buf.append(ord(ch))
         if i % 3 == 2:
             sock.send(bytes(buf))
+            time.sleep(0.1)
             buf.clear()
     if len(buf) > 0:
         while len(buf) < 4:
             buf.append(0)
         sock.send(bytes(buf))
+        time.sleep(0.1)
 
 def thread_send(sock):
-    send_name(sock, "My Linux")
+    send_name(sock, "My Linux02")
     buf = bytearray((0xff, 0x02, 0x00, 0xaa))
     while 1:
         sock.send(bytes(buf))
