@@ -144,7 +144,7 @@ Key KeySelect(uint8_t buf) {
     case 0x00:
 	  if (global_status.numberLock) {
         tmp.keyvalue = 0x1B;
-        tmp.keyshow = " 10 ";
+        tmp.keyshow = " 0 ";
         tmp.virtualCode = 0x30;
       } else {
         tmp.keyvalue = 0x1B;
