@@ -37,7 +37,10 @@ def thread_recv(sock):
                 if data_pkg[1] & 0x08:
                     K.press_key(K.windows_l_key)
                 if data_pkg[2]:
-                    K.tap_key(data_pkg[2])
+                    try:
+                        K.tap_key(data_pkg[2])
+                    except:
+                        print("unknown key")
                 if data_pkg[1] & 0x08:
                     K.release_key(K.windows_l_key)
                 if data_pkg[1] & 0x04:
@@ -48,6 +51,10 @@ def thread_recv(sock):
                     K.release_key(K.shift_key)
             elif data_pkg[0] == 0x55:
                 print("Mouse action")
+            elif data_pkg[0] == 0xdd:
+                if(data_pkg[3] == 0x01):
+                    print("POWER OFF REQUEST")
+                print("Action")
             # print(str(data))
             # for c in str(data):
                 # if ord(c) > 0: K.tap_key(str(c))

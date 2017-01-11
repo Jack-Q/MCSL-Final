@@ -55,8 +55,15 @@ void encodeKeyPackage(CTRL_dataPackage_t *pkg) {
 }
 void encodeMousePackage(CTRL_dataPackage_t *pkg) {
   pkg->data[0] = PKG_TX_MOUSE;
+  pkg->pos = 0;
 }
-void encodeActPackage(CTRL_dataPackage_t *pkg) { pkg->data[0] = PKG_TX_ACT; }
+void encodeActPackage(CTRL_dataPackage_t *pkg) {
+	pkg->data[0] = PKG_TX_ACT;
+	pkg->data[1] = 0; // Confirmation
+	pkg->data[2] = 0; // Delay
+	pkg->data[3] = global_status.actCode;
+	pkg->pos = 0;
+}
 
 void decodePackage(CTRL_dataPackage_t *pkg) {
   if (!pkg) return;

@@ -25,6 +25,11 @@ typedef enum {
   CTRL_OPTION_SURE_CANC = 0x2  // Sure, Cancel
 } CTRL_optionType_t;
 
+typedef enum {
+  CTRL_ACTION_NOP = 0x0, 	  // No operation
+  CTRL_ACTION_POWER = 0x1     // power off
+} CTRL_actionType_t;
+
 typedef struct {
   int pos;
   char data[4];
@@ -45,6 +50,7 @@ typedef struct {
   CTRL_dataPackage_t blueTx;
 
   uint8_t showMessage;
+  int messageElapse;
   char message[17];
 
   uint8_t showOption;
@@ -54,6 +60,10 @@ typedef struct {
   uint8_t min;  // Minute
   char dot;     // : or []
   uint8_t sec;  // Second
+
+  uint8_t actSent;
+  uint8_t actReady;
+  CTRL_actionType_t actCode;
 
   uint8_t keySent;   // whether currently displayed key sent
   uint8_t keyReady;  // whether currently displayed key is ready to send

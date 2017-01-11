@@ -6,7 +6,7 @@ CTRL_status_t global_status;
 
 UART_HandleTypeDef huart3, huart2;
 RingBuffer pcTxBuf, pcRxBuf;
-char pcReadBuf[1];
+char pcReadBuf[1], btReadBuf[1];
 uint8_t pcTxData;
 __IO ITStatus PcUartReady = SET;
 

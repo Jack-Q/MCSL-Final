@@ -9,10 +9,7 @@
 extern CTRL_status_t global_status;
 
 extern UART_HandleTypeDef huart3, huart2;
-extern RingBuffer pcTxBuf, pcRxBuf, btTxBuf, btRxBuf;
-extern char pcReadBuf[1], btReadBuf[1];
-extern uint8_t pcTxData, btTxData;
-extern __IO ITStatus PcUartReady, BtUartReady;
+extern RingBuffer pcTxBuf;
 
 extern NEC nec;
 
@@ -340,7 +337,11 @@ void Init_global_state()
     global_status.usbConnected = 0;
     global_status.usbDeviceType = CTRL_USB_NC;
 
+    global_status.blueRxReady = 0;
+    global_status.blueTxReady = 1;
+
     global_status.showMessage = 0;
+    global_status.messageElapse = 0;
     global_status.message[0] = 0;
 
     global_status.showOption = 0;
@@ -351,7 +352,12 @@ void Init_global_state()
     global_status.dot = 0;
     global_status.sec = 0;
 
+    global_status.actSent = 0;
+    global_status.actReady = 0;
+    global_status.actCode = CTRL_ACTION_NOP;
+
     global_status.keySent = 0;
+    global_status.keyReady = 0;
 
     global_status.shiftKey = 0;
     global_status.ctrlKey = 0;
