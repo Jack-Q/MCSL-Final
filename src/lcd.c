@@ -1,5 +1,6 @@
 #include "global_state.h"
 #include "lcd.h"
+#include "string.h"
 #include "stm32l4xx_ll_gpio.h"
 
 extern CTRL_status_t global_status;
@@ -263,7 +264,7 @@ void LCD_updateFont() {
 
 void LCD_updateDisplay() {
 	static char buffer[32];
-
+	memset(buffer, 0, sizeof(buffer));
 	// draw first row
 	if (global_status.deviceType == CTRL_DEVICETYPE_NC) {
 		strcpy(buffer, "PLEASE CONNECT  ");
@@ -287,7 +288,7 @@ void LCD_updateDisplay() {
 	// draw second row
 	if (global_status.deviceType == CTRL_DEVICETYPE_NC) {
 		strcpy(buffer, " TO SOME DEVICE ");
-	} else if(global_status.optionPrompt){
+	} else if(global_status.showOption){
 		switch(global_status.optionType){
 		case CTRL_OPTION_OK:
 			strcpy(buffer, "?    [ OK ]     ");
@@ -300,13 +301,14 @@ void LCD_updateDisplay() {
 			break;
 		}
 	}else {
+		memset(buffer, 0, sizeof(buffer));
+
 		char *pos = buffer;
 		if(global_status.shiftKey) *pos++ = LCD_CUSTOME_Shift;
 		if(global_status.ctrlKey) *pos++ = LCD_CUSTOME_Ctrl;
-		if(global_status.winKey) *pos++ = LCD_CUSTOME_Win;
 		if(global_status.altKey) *pos++ = LCD_CUSTOME_Alt;
+		if(global_status.winKey) *pos++ = LCD_CUSTOME_Win;
 		if(global_status.key.keyvalue > 0) strcpy(pos, global_status.key.keyshow);
-		else strcpy(pos, "            ");
 
 		buffer[10] = ' ';
 		buffer[11] = '0' + global_status.min / 10;

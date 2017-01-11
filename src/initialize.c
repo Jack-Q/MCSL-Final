@@ -25,6 +25,9 @@ static void MX_USART2_UART_Init(void);
 static void MX_TIM2_Init(void);
 static void NEC_IR_Init(void);
 static void Init_global_state(void);
+void IR_receive_callback(uint16_t, uint8_t);
+void IR_repeat_callback();
+void IR_error_callback();
 void IR_receive_key(Key key);
 
 void initialize()
@@ -133,7 +136,7 @@ void SystemClock_Config(void)
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
     RCC_OscInitStruct.PLL.PLLM = 1;
-    RCC_OscInitStruct.PLL.PLLN = 24; // 10
+    RCC_OscInitStruct.PLL.PLLN = 40; // 10
     RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
     RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;

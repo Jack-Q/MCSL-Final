@@ -3,7 +3,7 @@
 #include "global_state.h"
 
 
-#define CTRL_timeTickSpan 1000
+#define CTRL_timeTickSpan 2000
 
 extern CTRL_status_t global_status;
 

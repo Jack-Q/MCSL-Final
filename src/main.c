@@ -12,6 +12,7 @@
 #include "lcd.h"
 #include "ringbuffer.h"
 #include "main.h"
+#include "ctrl_time.h"
 
 extern CTRL_status_t global_status;
 
@@ -30,6 +31,9 @@ int main() {
 	char *send_message = "Send: ";
 
 	uint32_t lastBtReady = HAL_GetTick();
+
+	// TODO: Test
+	global_status.deviceType = CTRL_DEVICETYPE_PC;
 
 	while (1) {
 		MX_USB_HOST_Process(); // handle background USB process
