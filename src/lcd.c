@@ -172,7 +172,7 @@ void CreateFont(int location, int *fontArray) {
 }
 
 int LCD_char_map(int ascii) {
-  if (ascii - LCD_CUSTOME_BASE < 8) return ascii;
+  if (ascii >= LCD_CUSTOME_BASE && ascii - LCD_CUSTOME_BASE < 8) return ascii;
   return ascii >= ' ' && ascii <= '}' ? ascii - ' ' + 0x20 : 0x20;
 }
 

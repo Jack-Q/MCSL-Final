@@ -1,0 +1,81 @@
+'''
+Control Agent: Receive the control command from the board and perform actual action
+
+Dependency:
+	PyUserInput
+	pybulez
+'''
+import bluetooth as bt
+from pymouse import PyMouse
+from pykeyboard import PyKeyboard
+import sys
+import threading
+import time
+
+PROMPT_IN = '\033[92m<<\033[0m '
+PROMPT_OUT = '\033[94m>>\033[0m '
+
+# M = PyMouse()
+K = PyKeyboard()
+
+def thread_recv(sock):
+    while 1:
+        data_pkg = sock.recv(4)
+        if data_pkg[0] == 0xaa:
+            print("key action")
+            if data_pkg[1] & 0x01:
+                K.press_key(K.shift_key)
+            if data_pkg[1] & 0x02:
+                K.press_key(K.alt_key)
+            if data_pkg[1] & 0x04:
+                K.press_key(K.control_key)
+            if data_pkg[1] & 0x08:
+                K.press_key(K.windows_l_key)
+            if data_pkg[2]:
+                K.tap_key(data_pkg[2])
+            if data_pkg[1] & 0x08:
+                K.release_key(K.windows_l_key)
+            if data_pkg[1] & 0x04:
+                K.release_key(K.control_key)
+            if data_pkg[1] & 0x02:
+                K.release_key(K.alt_key)
+            if data_pkg[1] & 0x01:
+                K.release_key(K.shift_key)
+        elif data_pkg[0] == 0x55:
+            print("Mouse action")
+        # print(str(data))
+        # for c in str(data):
+            # if ord(c) > 0: K.tap_key(str(c))
+
+
+def send_name(sock, name):
+    buf = bytearray()
+    for i, ch in enumerate(name):
+        if i % 3 == 0:
+            buf.append(0x20 + i // 3)
+        buf.append(ord(ch))
+        if i % 3 == 2:
+            sock.send(bytes(buf))
+            buf.clear()
+    if len(buf) > 0:
+        while len(buf) < 4:
+            buf.append(0)
+        sock.send(bytes(buf))
+
+def thread_send(sock):
+    send_name(sock, "My Linux")
+    buf = bytearray((0xff, 0x02, 0x00, 0xaa))
+    while 1:
+        sock.send(bytes(buf))
+        time.sleep(0.5)
+
+
+def main():
+    sock = bt.BluetoothSocket(proto=bt.RFCOMM)
+    print('CONNECTING')
+    sock.connect(('20:16:06:29:36:96', 1))
+    threading.Thread(target=thread_recv, args=(sock,)).start()
+    threading.Thread(target=thread_send, args=(sock,)).start()
+
+if __name__ == '__main__':
+    main()

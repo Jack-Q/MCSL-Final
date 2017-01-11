@@ -1,6 +1,7 @@
 #include "global_state.h"
 #include "package.h"
 #include "stm32l4xx_hal.h"
+#include "string.h"
 
 extern CTRL_status_t global_status;
 
@@ -44,10 +45,10 @@ void encodeKeyPackage(CTRL_dataPackage_t *pkg) {
   if (global_status.altKey) pkg->data[1] |= PKG_KEY_ALT;
   if (global_status.winKey) pkg->data[1] |= PKG_KEY_WIN;
 
-  if (global_status.key.keyCode == -1)
+  if (global_status.key.keyvalue == -1)
     pkg->data[2] = 0;
   else
-    pkg->data[2] = global_status.key.keyCode;
+    pkg->data[2] = global_status.key.keyvalue;
 
   pkg->data[3] = 0;
 }
@@ -83,8 +84,8 @@ void decodePackage(CTRL_dataPackage_t *pkg) {
       if (global_status.deviceType == CTRL_DEVICETYPE_NC) {
         // New connection
         global_status.deviceType =
-            data[1] == PKG_CONN_PC ? CTRL_DEVICETYPE_PC : CTRL_DEVICETYPE_PHONE;
-        memset(global_status.name, 0, sizeof(global_status, name));
+            pkg->data[1] == PKG_CONN_PC ? CTRL_DEVICETYPE_PC : CTRL_DEVICETYPE_PHONE;
+        memset(global_status.name, 0, sizeof(global_status.name));
       }
       global_status.lastConn = HAL_GetTick();
       break;
