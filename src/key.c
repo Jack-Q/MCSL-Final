@@ -45,54 +45,108 @@ Key KeySelect(uint8_t buf) {
       }
       break;
     case 0x02:
-      tmp.keyvalue = 0x12;
-      tmp.keyshow = "F2";
-      tmp.virtualCode = 0x71;
+	  if (global_status.numberLock) {
+        tmp.keyvalue = 0x12;
+        tmp.keyshow = " 2 ";
+        tmp.virtualCode = 0x32;
+      } else {
+        tmp.keyvalue = 0x12;
+        tmp.keyshow = "F2";
+        tmp.virtualCode = 0x71;
+      }
       break;
     case 0x03:
-      tmp.keyvalue = 0x13;
-      tmp.keyshow = "F3";
-      tmp.virtualCode = 0x72;
+	  if (global_status.numberLock) {
+        tmp.keyvalue = 0x13;
+        tmp.keyshow = " 3 ";
+        tmp.virtualCode = 0x32;
+      } else {
+        tmp.keyvalue = 0x13;
+        tmp.keyshow = "F3";
+        tmp.virtualCode = 0x72;
+      }
       break;
     case 0x04:
-      tmp.keyvalue = 0x14;
-      tmp.keyshow = "F4";
-      tmp.virtualCode = 0x73;
+	  if (global_status.numberLock) {
+        tmp.keyvalue = 0x14;
+        tmp.keyshow = " 4 ";
+        tmp.virtualCode = 0x33;
+      } else {
+        tmp.keyvalue = 0x14;
+        tmp.keyshow = "F4";
+        tmp.virtualCode = 0x73;
+      }
       break;
     case 0x05:
-      tmp.keyvalue = 0x15;
-      tmp.keyshow = "F5";
-      tmp.virtualCode = 0x74;
+	  if (global_status.numberLock) {
+        tmp.keyvalue = 0x15;
+        tmp.keyshow = " 5 ";
+        tmp.virtualCode = 0x34;
+      } else {
+        tmp.keyvalue = 0x15;
+        tmp.keyshow = "F5";
+        tmp.virtualCode = 0x74;
+      }
       break;
     case 0x06:
-      tmp.keyvalue = 0x16;
-      tmp.keyshow = "F6";
-      tmp.virtualCode = 0x75;
+	  if (global_status.numberLock) {
+        tmp.keyvalue = 0x16;
+        tmp.keyshow = " 6 ";
+        tmp.virtualCode = 0x35;
+      } else {
+        tmp.keyvalue = 0x16;
+        tmp.keyshow = "F6";
+        tmp.virtualCode = 0x75;
+      }
       break;
     case 0x07:
-      tmp.keyvalue = 0x17;
-      tmp.keyshow = "F7";
-      tmp.virtualCode = 0x76;
+	  if (global_status.numberLock) {
+        tmp.keyvalue = 0x17;
+        tmp.keyshow = " 7 ";
+        tmp.virtualCode = 0x36;
+      } else {
+        tmp.keyvalue = 0x17;
+        tmp.keyshow = "F7";
+        tmp.virtualCode = 0x76;
+      }
       break;
     case 0x08:
-      tmp.keyvalue = 0x18;
-      tmp.keyshow = "F8";
-      tmp.virtualCode = 0x77;
+	  if (global_status.numberLock) {
+        tmp.keyvalue = 0x18;
+        tmp.keyshow = " 8 ";
+        tmp.virtualCode = 0x37;
+      } else {
+        tmp.keyvalue = 0x18;
+        tmp.keyshow = "F8";
+        tmp.virtualCode = 0x77;
+      }
       break;
     case 0x09:
-      tmp.keyvalue = 0x19;
-      tmp.keyshow = "F9";
-      tmp.virtualCode = 0x78;
+	  if (global_status.numberLock) {
+        tmp.keyvalue = 0x19;
+        tmp.keyshow = " 9 ";
+        tmp.virtualCode = 0x38;
+      } else {
+        tmp.keyvalue = 0x19;
+        tmp.keyshow = "F9";
+        tmp.virtualCode = 0x78;
+      }
       break;
     case 0x40:
       tmp.keyvalue = 0x1A;
-      tmp.keyshow = "F10";
+      tmp.keyshow = "F11";
       tmp.virtualCode = 0x79;
       break;
     case 0x00:
-      tmp.keyvalue = 0x1B;
-      tmp.keyshow = "F11";
-      tmp.virtualCode = 0x7A;
+	  if (global_status.numberLock) {
+        tmp.keyvalue = 0x1B;
+        tmp.keyshow = " 10 ";
+        tmp.virtualCode = 0x30;
+      } else {
+        tmp.keyvalue = 0x1B;
+        tmp.keyshow = "F10";
+        tmp.virtualCode = 0x7A;
+      }
       break;
     case 0x45:
       tmp.keyvalue = 0x1C;
