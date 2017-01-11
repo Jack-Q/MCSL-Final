@@ -29,18 +29,21 @@ int main() {
   char cmdBuf[100], data;
   char *send_message = "Send: ";
 
-  uint32_t lastBtReady = HAL_GetTick();
-
   // TODO: Test
   global_status.deviceType = CTRL_DEVICETYPE_PC;
-  LCD_updateFont();
 
   while (1) {
     MX_USB_HOST_Process();  // handle background USB process
     CTRL_timeUpdate();      // update time display
+    LCD_updateFont();       // update LCD font
     LCD_updateDisplay();    // update LCD display
+                            // process usart data from PC or bluetooth
 
-    // process usart data from PC or bluetooth
+    // handle offline status
+    if (HAL_GetTick() - global_status.lastConn > 4000) {
+      // ~ 2 seconds elapsed after first pacakge send
+      global_status.deviceType = CTRL_DEVICETYPE_NONE;
+    }
 
     // Handle Blue-tooth Data
     if (BtUartReady) {
@@ -77,40 +80,6 @@ int main() {
         cmdBuf[pos++] = data;
       }
     }
-  }
-}
-
-// Callback when IR receive key press (exclude repeated key press)
-void IR_receive_key(Key key) {
-  if (global_status.keySent) {
-    global_status.keySent = 0;
-    global_status.keyReady = 0;
-    global_status.shiftKey = 0;
-    global_status.altKey = 0;
-    global_status.ctrlKey = 0;
-    global_status.winKey = 0;
-    global_status.key.keyvalue = -1;
-  }
-  switch (key.keyvalue) {
-    case KEY_VALUE_SHIFT:
-      global_status.shiftKey = !global_status.shiftKey;
-      break;
-    case KEY_VALUE_ALT:
-      global_status.altKey = !global_status.altKey;
-      break;
-    case KEY_VALUE_CTRL:
-      global_status.ctrlKey = !global_status.ctrlKey;
-      break;
-    case KEY_VALUE_WIN:
-      global_status.winKey = !global_status.winKey;
-      break;
-    case -1:
-      break;
-    default:  // General keys
-      global_status.key.keyshow = key.keyshow;
-      global_status.key.keyvalue = key.keyvalue;
-      global_status.keyReady = 1;
-      break;
   }
 }
 
@@ -152,6 +121,40 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
     // PC
     if (huart->ErrorCode == HAL_UART_ERROR_ORE)
       HAL_UART_Receive_IT(huart, (uint8_t *)pcReadBuf, 1);
+  }
+}
+
+// Callback when IR receive key press (exclude repeated key press)
+void IR_receive_key(Key key) {
+  if (global_status.keySent) {
+    global_status.keySent = 0;
+    global_status.keyReady = 0;
+    global_status.shiftKey = 0;
+    global_status.altKey = 0;
+    global_status.ctrlKey = 0;
+    global_status.winKey = 0;
+    global_status.key.keyvalue = -1;
+  }
+  switch (key.keyvalue) {
+    case KEY_VALUE_SHIFT:
+      global_status.shiftKey = !global_status.shiftKey;
+      break;
+    case KEY_VALUE_ALT:
+      global_status.altKey = !global_status.altKey;
+      break;
+    case KEY_VALUE_CTRL:
+      global_status.ctrlKey = !global_status.ctrlKey;
+      break;
+    case KEY_VALUE_WIN:
+      global_status.winKey = !global_status.winKey;
+      break;
+    case -1:
+      break;
+    default:  // General keys
+      global_status.key.keyshow = key.keyshow;
+      global_status.key.keyvalue = key.keyvalue;
+      global_status.keyReady = 1;
+      break;
   }
 }
 
