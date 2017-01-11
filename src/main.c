@@ -1,19 +1,17 @@
 #include "stdio.h"
 #include "string.h"
 
-#include "global_state.h"
-#include "initialize.h"
-#include "main.h"
-
-#include "NEC_Decode.h"
-
-#include "key.h"
-#include "lcd.h"
-#include "ringbuffer.h"
 #include "stm32l4xx.h"
 #include "stm32l4xx_hal.h"
 #include "usb_host.h"
 #include "usbh_hid.h"
+
+#include "global_state.h"
+#include "initialize.h"
+#include "key.h"
+#include "lcd.h"
+#include "ringbuffer.h"
+#include "main.h"
 
 extern CTRL_status_t global_status;
 
@@ -23,7 +21,6 @@ extern char pcReadBuf[1], btReadBuf[1];
 extern uint8_t pcTxData, btTxData;
 extern __IO ITStatus PcUartReady, BtUartReady;
 
-extern NEC nec;
 
 int main() {
 	initialize();
@@ -78,6 +75,39 @@ int main() {
 	}
 }
 
+// Callback when IR receive key press (exclude repeated key press)
+void IR_receive_key(Key key){
+	if(global_status.keySent){
+		global_status.shiftKey = 0;
+		global_status.altKey = 0;
+		global_status.ctrlKey = 0;
+		global_status.winKey = 0;
+		global_status.key.keyvalue = -1;
+	}
+	switch(key.keyvalue){
+	case KEY_VALUE_SHIFT:
+		global_status.shiftKey = !global_status.shiftKey;
+		break;
+	case KEY_VALUE_ALT:
+		global_status.altKey = !global_status.altKey;
+		break;
+	case KEY_VALUE_CTRL:
+		global_status.ctrlKey= !global_status.ctrlKey;
+		break;
+	case KEY_VALUE_WIN:
+		global_status.winKey = !global_status.winKey;
+		break;
+	case -1:
+		break;
+	default: // General keys
+		global_status.key.keyshow= key.keyshow;
+		global_status.key.keyvalue= key.keyvalue;
+		global_status.keyReady = 1;
+		break;
+	}
+}
+
+
 // Interrupt handler
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	/* Set transmission flag: transfer complete*/
@@ -119,33 +149,6 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
 	}
 }
 
-/*******************************************
- * Customized Initializer
- */
-void IR_receive_callback(uint16_t address, uint8_t cmd) {
-	global_status.irConnected = 1;
-	Key key = KeySelect(cmd);
-	printf("Key:%s (%2d)\r\n", key.keyshow, key.keyvalue);
-
-	RingBuffer_Write(&btTxBuf, (uint8_t *) &key.keyvalue, 1);
-	HAL_UART_TxCpltCallback(&huart3);
-	HAL_Delay(10);
-	NEC_Read(&nec);
-}
-
-void IR_error_callback() {
-	global_status.irConnected = 1;
-	printf("Error!\r\n");
-	HAL_Delay(10);
-	NEC_Read(&nec);
-}
-
-void IR_repeat_callback() {
-	global_status.irConnected = 1;
-	printf("Repeat!\r\n");
-	HAL_Delay(10);
-	NEC_Read(&nec);
-}
 
 /******************************************
  * USB HID Callbacks

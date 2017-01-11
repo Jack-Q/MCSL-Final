@@ -45,7 +45,8 @@ typedef struct
     char dot;    // : or []
     uint8_t sec; // Second
 
-    uint8_t keySent; // whether crrently displayed key sent
+    uint8_t keySent; // whether currently displayed key sent
+    uint8_t keyReady; // whether currently displayed key is ready to send
 
     uint8_t shiftKey; // SHIFT Key Toggle
     uint8_t ctrlKey;  // CTRL Key Toggle

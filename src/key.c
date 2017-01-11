@@ -12,19 +12,19 @@ Key KeySelect(uint8_t buf){
             tmp.keyshow="Turn off";
             break;
 		case 0x14:
-            tmp.keyvalue=0x02;
+            tmp.keyvalue= KEY_VALUE_CTRL; // 0x02
             tmp.keyshow="ctrl";
             break;
 		case 0x17:
-            tmp.keyvalue=0x03;
+            tmp.keyvalue = KEY_VALUE_SHIFT; // 0x03
             tmp.keyshow="shift";
             break;
 		case 0x1d:
-            tmp.keyvalue=0x04;
+            tmp.keyvalue= KEY_VALUE_ALT; // 0x04
             tmp.keyshow="alt";
             break;
 		case 0x43:
-            tmp.keyvalue=0x05;
+            tmp.keyvalue= KEY_VALUE_WIN; // 0x05
             tmp.keyshow="windows";
             break;
         case 0x01:
