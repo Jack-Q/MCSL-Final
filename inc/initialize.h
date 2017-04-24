@@ -1,3 +1,11 @@
+/********************************************************
+ * Micro Computer System Lab - Final Project
+ *                                               Group 49
+ ********************************************************
+ * Bluetooth & IR Controller
+ ********************************************************/
+
+
 #ifndef __INITIALIZE_H
 #define __INITIALIZE_H
 

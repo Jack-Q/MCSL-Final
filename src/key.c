@@ -1,3 +1,11 @@
+/********************************************************
+ * Micro Computer System Lab - Final Project
+ *                                               Group 49
+ ********************************************************
+ * Bluetooth & IR Controller
+ ********************************************************/
+
+
 #include "key.h"
 #include "global_state.h"
 

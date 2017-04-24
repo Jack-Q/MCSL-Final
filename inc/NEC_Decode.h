@@ -1,9 +1,10 @@
-/*
- * NEC_Decode.h
- *
- *  Created on: Mar 9, 2016
- *      Author: peter
- */
+/********************************************************
+ * Micro Computer System Lab - Final Project
+ *                                               Group 49
+ ********************************************************
+ * Bluetooth & IR Controller
+ ********************************************************/
+
 
 #ifndef INC_NEC_DECODE_H_
 #define INC_NEC_DECODE_H_

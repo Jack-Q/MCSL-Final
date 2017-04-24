@@ -1,6 +1,8 @@
 '''
 Control Agent: Receive the control command from the board and perform actual action
 
+By Jack Q
+
 Dependency:
 	PyUserInput
 	pybulez

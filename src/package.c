@@ -1,3 +1,11 @@
+/********************************************************
+ * Micro Computer System Lab - Final Project
+ *                                               Group 49
+ ********************************************************
+ * Bluetooth & IR Controller
+ ********************************************************/
+
+
 #include "global_state.h"
 #include "package.h"
 #include "stm32l4xx_hal.h"

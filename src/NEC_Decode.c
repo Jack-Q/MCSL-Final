@@ -1,3 +1,11 @@
+/********************************************************
+ * Micro Computer System Lab - Final Project
+ *                                               Group 49
+ ********************************************************
+ * Bluetooth & IR Controller
+ ********************************************************/
+
+
 #include "NEC_Decode.h"
 
 void NEC_TIM_IC_CaptureCallback(NEC *handle)

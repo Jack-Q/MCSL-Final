@@ -1,3 +1,10 @@
+/********************************************************
+ * Micro Computer System Lab - Final Project
+ *                                               Group 49
+ ********************************************************
+ * Bluetooth & IR Controller
+ ********************************************************/
+
 #include "global_state.h"
 #include "lcd.h"
 #include "stm32l4xx_ll_gpio.h"

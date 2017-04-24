@@ -1,3 +1,11 @@
+/********************************************************
+ * Micro Computer System Lab - Final Project
+ *                                               Group 49
+ ********************************************************
+ * Bluetooth & IR Controller
+ ********************************************************/
+
+
 #ifndef RING_BUFFER_H__
 #define RING_BUFFER_H__
 

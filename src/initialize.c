@@ -1,3 +1,12 @@
+/********************************************************
+ * Micro Computer System Lab - Final Project
+ *                                               Group 49
+ ********************************************************
+ * Bluetooth & IR Controller
+ ********************************************************/
+
+
+
 #include "ctrl_time.h"
 #include "global_state.h"
 #include "initialize.h"
