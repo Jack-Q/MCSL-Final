@@ -2,7 +2,13 @@
 
 ## Introduction
 
-## Structual diagram
+This is a controller program for STM32 l476rg SoC to be used as a Bluetooth & IR(Infrared) controller for computer. 
+You can use IR remote controller to control your computer, which connected to the board by either bluetooth or USB (via STLink).
+
+* Board: ST Nucleo l476rg
+* SoC: STM32 l476rg (ARM Cortex M4, 144k RAM, 1M Flash)
+
+## Structural diagram
 
 ## Hardware
 
@@ -17,7 +23,7 @@
 This repo is a Eclipse project with "AC6 System Workbench for STM32" plugin support.
 For detailed description, refer to [STMicroelectronics's website](http://www.st.com/en/development-tools/sw4stm32.html).
 
-## Clinet program
+## Client program
 
 To perform the requested key events (as well as other special events), 
 some client program should run on the target platform. Currently, 
@@ -45,7 +51,7 @@ Report the name of the device, which will be displayed on LCD, limited to 11 cha
 
 * Connectivity & Type
 
-Transimt the divice type and evice connectivity. The device will transimit this package
+Transmit the device type and device connectivity. The device will transmit this package
 on a regular basis as a *heartbeat*.
 
 ```txt
@@ -59,7 +65,7 @@ on a regular basis as a *heartbeat*.
 Request to display a message on the LCD. Generally used as a status report or error feedback.
 This may not be displayed owing to various reasons.
 
-This string transimtted use a terminator '\0' as C language.
+This string transmitted use a terminator '\0' as C language.
 
 *This was not fully implemented.*
 
@@ -99,7 +105,7 @@ orientation/axis in 2D plane).
 
 * Key Action
 
-Since the keycode is reinterpreted by a Python script in host PC platform,
+Since the key code is reinterpreted by a Python script in host PC platform,
 the action code here are taken directly from PyInput library to maximum the
 compatibility.
 
@@ -113,15 +119,15 @@ compatibility.
 
 * Special Action
 
-The remote controller contians some functions that can be dirrectly mapped to
-the funcitonality of computer such of power of control. These signal are
-transimitted in this package. If the daemon script on host has no privilige to
+The remote controller contains some functions that can be dirrectly mapped to
+the functionality of computer such of power of control. These signal are
+transmitted in this package. If the daemon script on host has no privilige to
 perform the required action, it *may* send a error package to indicate this problem.
 
 ```txt
-  0xdd [Comfirmation] [Delay] [Action]
+  0xdd [Confirmation] [Delay] [Action]
        0x01 confirmation: a action may require additional confirmation on host PC
-                    Delay: (in sec) postpont the actual execution of request script
+                    Delay: (in sec) postpone the actual execution of request script
                               Action Code
 
   Action Code:
