@@ -10,6 +10,8 @@ You can use IR remote controller to control your computer, which connected to th
 
 ## Structural diagram
 
+* Design structure: [design.pdf](./doc/design.pdf)
+
 ## Hardware
 
 * STM32 Nucleo-64 development board with STM32L476RG MCU
