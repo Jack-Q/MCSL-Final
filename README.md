@@ -8,6 +8,9 @@ You can use IR remote controller to control your computer, which connected to th
 * Board: ST Nucleo l476rg
 * SoC: STM32 l476rg (ARM Cortex M4, 144k RAM, 1M Flash)
 
+* Preview
+  ![Preview](./doc/preview.jpg)
+
 ## Structural diagram
 
 * Design structure: [design.pdf](./doc/design.pdf)
