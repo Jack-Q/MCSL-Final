@@ -9,7 +9,8 @@ You can use IR remote controller to control your computer, which connected to th
 * SoC: STM32 l476rg (ARM Cortex M4, 144k RAM, 1M Flash)
 
 * Preview
-  ![Preview](./doc/preview.jpg)
+  [Video Demo](https://youtu.be/EQOTXn_NBv8)
+  ![Preview](./doc/preview.jpg)
 
 ## Structural diagram
 
